@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#0b0f1a"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="AppianCert"/>
+<title>Appian Dev Cert</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#0b0f1a;color:#e2e8f0;font-family:'DM Sans',sans-serif;overflow:hidden}
+:root{
+  --bg:#0b0f1a;--bg2:#111827;--bg3:#1a2235;--bg4:#0f172a;
+  --border:#1f2d45;--accent:#f97316;--accent2:#fb923c;
+  --blue:#3b82f6;--blue2:#60a5fa;--green:#22c55e;--green2:#4ade80;
+  --red:#ef4444;--purple:#a855f7;--text:#e2e8f0;--text2:#94a3b8;--muted:#475569;
+  --mono:'Space Mono',monospace;--syne:'Syne',sans-serif;--sans:'DM Sans',sans-serif;
+}
+#app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow:hidden}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px;display:none;flex-direction:column;gap:14px;padding-bottom:90px}
+.screen.active{display:flex}
+.screen::-webkit-scrollbar{width:3px}
+.screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.hdr{background:rgba(17,24,39,.97);border-bottom:1px solid var(--border);padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.hdr-logo{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--accent);font-weight:700}
+.hdr-c{font-family:var(--syne);font-size:17px;font-weight:700}
+.pill{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:20px;font-weight:700}
+.pill-xp{background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.3)}
+.pill-s{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(17,24,39,.98);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 14px;z-index:100}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:6px 14px;color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:.5px;transition:color .2s}
+.nb.on{color:var(--accent)}
+.nb svg{width:22px;height:22px;stroke-width:1.8}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;transition:transform .15s,border-color .2s}
+.ca{border-color:var(--accent)!important}
+.cb{border-color:var(--blue)!important}
+.cg{border-color:var(--green)!important}
+.cp{border-color:var(--purple)!important}
+.tap{cursor:pointer}.tap:active{transform:scale(.97)}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:none;border-radius:12px;padding:13px 20px;cursor:pointer;transition:all .2s;width:100%;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.bp{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+.bo{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.bs{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.bg{background:linear-gradient(135deg,var(--green),var(--green2));color:#000}
+.bb{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.bsm{padding:8px 14px;font-size:10px;width:auto}
+.prog{background:var(--bg3);border-radius:99px;height:5px;overflow:hidden}
+.prog-f{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s ease}
+.tag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;letter-spacing:.8px;padding:3px 8px;border-radius:6px;text-transform:uppercase;font-weight:700}
+.to{background:rgba(249,115,22,.15);color:var(--accent)}
+.tb{background:rgba(59,130,246,.15);color:var(--blue)}
+.tg{background:rgba(34,197,94,.15);color:var(--green)}
+.tm{background:var(--bg3);color:var(--muted)}
+.tp{background:rgba(168,85,247,.15);color:var(--purple)}
+.qopt{background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;padding:13px 14px;cursor:pointer;margin-bottom:10px;font-size:13px;color:var(--text);transition:all .2s;text-align:left;width:100%;font-family:var(--sans);display:flex;align-items:center;gap:10px}
+.qopt:hover{border-color:rgba(249,115,22,.4)}
+.qopt.correct{border-color:var(--green)!important;background:rgba(34,197,94,.1)!important;color:var(--green)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:var(--red)!important}
+.qopt.sel{border-color:var(--blue);background:rgba(59,130,246,.1)}
+.qopt[disabled]{cursor:default}
+.qkey{font-family:var(--mono);font-size:10px;color:var(--muted);background:var(--bg4);padding:3px 7px;border-radius:4px;flex-shrink:0}
+.qtext{font-size:14px;font-weight:600;margin-bottom:18px;line-height:1.5;color:var(--text)}
+.alg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5}
+.alr{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5}
+.alb{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--blue2);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5}
+.alo{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--accent2);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5}
+.lb{font-size:14px;line-height:1.8;color:#94a3b8}
+.lb h4{font-family:var(--syne);font-size:17px;color:var(--text);margin:16px 0 8px;font-weight:700}
+.lb p{margin-bottom:10px}
+.lb ul,.lb ol{padding-left:20px;margin-bottom:10px}
+.lb li{margin-bottom:5px}
+.lb code{font-family:var(--mono);font-size:11px;background:rgba(249,115,22,.1);padding:2px 6px;border-radius:4px;color:var(--accent);border:1px solid rgba(249,115,22,.2)}
+.lb strong{color:var(--text);font-weight:600}
+.lb .tip{background:rgba(59,130,246,.08);border-left:3px solid var(--blue);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:var(--blue2)}
+.lb .warn{background:rgba(249,115,22,.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:var(--accent2)}
+.rm-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;border:2px solid var(--border);background:var(--bg3);flex-shrink:0}
+.rm-dot.done{background:var(--green);border-color:var(--green);color:#000}
+.rm-dot.active{background:var(--accent);border-color:var(--accent);color:#000;animation:pd 2s infinite}
+@keyframes pd{0%,100%{box-shadow:0 0 8px rgba(249,115,22,.3)}50%{box-shadow:0 0 18px rgba(249,115,22,.7)}}
+.rmd{width:2px;background:var(--border);margin:4px 0;flex:1}
+.rmd.done{background:var(--green)}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ach-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+.ach-item.earned{border-color:var(--accent);background:rgba(249,115,22,.08)}
+.ach-icon{font-size:26px;margin-bottom:5px;filter:grayscale(1) opacity(.3)}
+.ach-item.earned .ach-icon{filter:none}
+.ach-name{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:.5px}
+.ach-item.earned .ach-name{color:var(--accent)}
+.ai-b{background:var(--bg3);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text2);max-width:92%;white-space:pre-wrap}
+.ai-u{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.2);border-radius:12px 12px 4px 12px;color:var(--text);margin-left:auto;max-width:85%}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:tp .9s infinite;display:inline-block;margin:0 2px}
+.ai-dot:nth-child(2){animation-delay:.2s}
+.ai-dot:nth-child(3){animation-delay:.4s}
+@keyframes tp{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.ai-inp{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:22px;padding:10px 16px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;min-width:0}
+.ai-inp:focus{border-color:rgba(249,115,22,.4)}
+.ai-send{background:var(--accent);border:none;border-radius:22px;padding:10px 16px;color:#000;cursor:pointer;font-weight:700;flex-shrink:0;font-size:16px}
+#tc{position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:calc(100% - 32px);max-width:398px}
+.toast{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tsi .3s ease}
+.toast.hide{animation:tso .3s ease forwards}
+@keyframes tsi{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tso{to{opacity:0;transform:translateY(-14px)}}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end}
+.mbg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:24px;width:100%;max-height:88vh;overflow-y:auto}
+.mh{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sb{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.sn{font-family:var(--syne);font-size:28px;color:var(--accent);line-height:1;font-weight:800}
+.sl{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.8px}
+.divx{height:1px;background:var(--border);margin:14px 0}
+.row{display:flex;align-items:center;gap:10px}
+.row-bet{display:flex;align-items:center;justify-content:space-between}
+.stit{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.h1{font-family:var(--syne);font-size:26px;font-weight:800;line-height:1.1}
+.h2{font-family:var(--syne);font-size:20px;font-weight:700}
+.h3{font-family:var(--syne);font-size:16px;font-weight:700}
+.tc{text-align:center}
+.cm{color:var(--muted)}.f12{font-size:12px}.f13{font-size:13px}.f14{font-size:14px}
+.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.mb4{margin-bottom:4px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}
+.timer{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent)}
+.danger{color:var(--red)!important;animation:bl 1s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.4}}
+.fade{animation:fu .3s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.big-score{font-family:var(--syne);font-size:50px;font-weight:800;margin:14px 0}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <span class="hdr-logo">&#9889;APPIAN</span>
+    <span class="hdr-c" id="hdr-t">Dev Cert</span>
+    <div class="row" style="gap:6px">
+      <span class="pill pill-s" id="sp">&#128293;0</span>
+      <span class="pill pill-xp" id="xp">0 XP</span>
+    </div>
+  </div>
+  <div class="screen active" id="s-home"></div>
+  <div class="screen" id="s-road"></div>
+  <div class="screen" id="s-learn"></div>
+  <div class="screen" id="s-ai"></div>
+  <div class="screen" id="s-exam"></div>
+  <nav class="nav">
+    <button class="nb on" data-t="home" onclick="go('home')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>HOME
+    </button>
+    <button class="nb" data-t="road" onclick="go('road')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>ROAD
+    </button>
+    <button class="nb" data-t="learn" onclick="go('learn')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>LEARN
+    </button>
+    <button class="nb" data-t="ai" onclick="go('ai')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>AI
+    </button>
+    <button class="nb" data-t="exam" onclick="go('exam')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>ESAME
+    </button>
+  </nav>
+</div>
+<div id="tc"></div>
+<div class="mbg" id="mbg" onclick="if(event.target===this)cM()">
+  <div class="modal"><div class="mh"></div><div id="mb"></div></div>
+</div>
+<script>
+
+const _D = {"CONTENT":{"1.1":"<h4>Definizione</h4><p>Appian è una piattaforma <strong>low-code enterprise</strong> che combina BPM, AI, RPA e Data Fabric. A differenza del no-code, il low-code permette espressioni e logica personalizzata.</p><h4>I 5 Pilastri</h4><ul><li><strong>Process Automation</strong>: workflow BPMN</li><li><strong>Data Fabric</strong>: connessione dati senza replicazione</li><li><strong>AI/ML</strong>: Document Extraction, Classification, GenAI</li><li><strong>RPA</strong>: robot per sistemi legacy (da Jidoka)</li><li><strong>Process Mining</strong>: analisi log reali</li></ul><h4>Cloud</h4><ul><li>Appian Cloud su <strong>Amazon AWS</strong></li><li>SLA: <strong>99.9%</strong> uptime</li><li>Deployment: Cloud, On-Premise, Ibrido</li><li>Certificazioni: SOC 2, FedRAMP, ISO 27001</li></ul><div class='tip'>Appian = Low-Code, NON No-Code. Permette Expression Language e logica personalizzata.</div>","1.2":"<h4>Appian Designer</h4><p>IDE completamente <strong>web-based</strong>. Nessuna installazione. Sezioni principali:</p><ul><li><strong>Build</strong>: crea e modifica oggetti</li><li><strong>Monitor</strong>: processi in esecuzione e debug</li><li><strong>Deploy</strong>: Package e Compare and Deploy</li><li><strong>Governance</strong>: utenti, gruppi, permessi</li></ul><h4>Oggetti Principali</h4><ul><li><code>Process Model</code>: workflow BPMN</li><li><code>Interface</code>: UI SAIL</li><li><code>Record Type</code>: entità dati</li><li><code>Expression Rule</code>: funzione riutilizzabile</li><li><code>Integration</code>: connessione sistemi esterni</li><li><code>Decision</code>: tabella decisionale DMN</li><li><code>Constant</code>: valore fisso per ambiente</li><li><code>CDT</code>: tipo dato strutturato</li></ul><h4>Prefissi</h4><ul><li><code>pv!</code> processo, <code>ac!</code> task corrente, <code>local!</code> UI, <code>ri!</code> input esterno, <code>cons!</code> constant, <code>rule!</code> chiama rule, <code>a!</code> funzione SAIL</li></ul><div class='warn'>Le Constant sono l'unico oggetto con valori diversi per ambiente senza modificare il codice.</div>","1.3":"<h4>SDLC e Ambienti</h4><ul><li><strong>DEV</strong>: sviluppo e unit test</li><li><strong>TEST/QA</strong>: UAT con utenti business</li><li><strong>PROD</strong>: sistema live, modifiche solo via deploy</li></ul><h4>Package di Deploy</h4><p>Meccanismo di trasporto oggetti tra ambienti. Flusso sempre: <code>DEV → TEST → PROD</code>. Contiene oggetti selezionati con dipendenze.</p><h4>Compare and Deploy</h4><p>Mostra differenze tra ambienti prima del deploy: oggetti modificati, mancanti, in conflitto.</p><h4>Best Practices</h4><ul><li>Prefissi consistenti (es. <code>HR_NomeOggetto</code>)</li><li>Mai modificare direttamente in PROD</li><li>Constant per config diversa per ambiente</li><li>Includere sempre le dipendenze nel package</li></ul><div class='tip'>Deploy SEMPRE DEV→TEST→PROD. Qualsiasi ordine diverso nelle opzioni d'esame è sbagliato.</div>","2.1":"<h4>Nodi del Process Model</h4><ul><li><strong>Start/End Event</strong>: avvio e chiusura processo</li><li><strong>User Input Task</strong>: form SAIL assegnato a utente/gruppo. Processo si blocca in attesa.</li><li><strong>Script Task</strong>: Expression Rule in background, senza utente, non blocca</li><li><strong>Service Task</strong>: chiama Integration o Smart Service</li><li><strong>Gateway XOR</strong>: UN solo ramo. Richiede default flow.</li><li><strong>Gateway AND</strong>: TUTTI i rami in parallelo. Join AND attende tutti.</li><li><strong>Gateway OR</strong>: uno o più rami per condizione</li><li><strong>Sub-Process</strong>: processo figlio annidato</li></ul><h4>Process Variables (pv!)</h4><ul><li>Persistono per tutta l'esecuzione</li><li>Tipi: Text, Integer, Boolean, Date, CDT, List</li><li>Configurabili come input/output del processo</li></ul><h4>Stati Processo</h4><ul><li><code>ACTIVE</code>, <code>COMPLETED</code>, <code>CANCELLED</code> (errore), <code>PAUSED</code>, <code>ARCHIVED</code></li></ul><div class='tip'>pv! = processo (persiste) — ac! = task corrente — local! = UI temporanea — ri! = input esterno</div>","2.2":"<h4>Gateway in Dettaglio</h4><ul><li><strong>XOR</strong>: valuta condizioni IN ORDINE, percorre il primo vero. SEMPRE definire default flow o il processo va in PAUSED.</li><li><strong>AND</strong>: attiva tutti i rami, Join AND attende tutti prima di proseguire.</li><li><strong>OR</strong>: uno o più rami attivi, Join OR attende solo quelli attivati.</li></ul><h4>Smart Services Principali</h4><ul><li><code>Send Email</code>: invia email con template</li><li><code>Write to Data Store Entity</code>: salva CDT nel DB</li><li><code>Delete from Data Store Entity</code>: cancella dal DB</li><li><code>Start Process</code>: avvia processo figlio</li><li><code>Create Task</code>: task ad-hoc</li><li><code>Set Process Variable</code>: aggiorna pv!</li><li><code>Reassign Task</code>: riassegna task</li></ul><div class='warn'>Write to Data Store Entity richiede permesso Editor sul Data Store E Initiator sul Process Model. Entrambi necessari.</div><h4>Condizioni Archi</h4><ul><li>In Appian Expression Language: <code>pv!stato = \"APPROVATO\"</code></li><li>Logica: <code>pv!importo > 1000 and pv!urgente</code></li></ul>","2.3":"<h4>Boundary Events</h4><ul><li><strong>Timer Boundary</strong>: scatta dopo un tempo. Per reminder, escalation, SLA.</li><li><strong>Error Boundary</strong>: cattura errori del task. Permette percorso alternativo.</li><li><strong>Signal Boundary</strong>: risponde a segnale esterno via API.</li><li><strong>Message Boundary</strong>: risponde a messaggi da altri processi.</li></ul><h4>Interrupting vs Non-Interrupting</h4><ul><li><strong>Interrupting (bordo pieno)</strong>: termina il task quando scatta</li><li><strong>Non-Interrupting (bordo tratteggiato)</strong>: task rimane attivo, avvia percorso parallelo</li></ul><div class='tip'>Pattern escalation: Timer NON-Interrupting a 24h = reminder (task aperto). Timer Interrupting a 48h = escalation al manager (task chiuso).</div><h4>Gestione Errori</h4><ul><li>Errore non gestito = processo in CANCELLED</li><li>Error Boundary sul Service Task = cattura errore API</li><li>Exception Handler = gestisce errori non catchati</li></ul><h4>Retry Pattern</h4><p>Error Boundary → Gateway XOR → se tentativi < 3 → torna al Service Task (incrementa pv!tentativi)</p>","3.1":"<h4>SAIL — Self-Assembling Interface Layer</h4><p>Framework UI di Appian in Expression Language. Automaticamente responsive su desktop, tablet, mobile.</p><h4>Variabili</h4><ul><li><code>local!</code>: stato UI temporaneo. Aggiornata con <code>a!save(target: local!var, value: val)</code></li><li><code>ri!</code>: Rule Input. Parametri dall'esterno. Read-only nell'interface.</li></ul><h4>Layout</h4><ul><li><code>a!formLayout()</code>: layout principale form (titolo, contenuto, pulsanti)</li><li><code>a!sideBySideLayout()</code>: affianca orizzontalmente. <strong>Raccomandato per top-level.</strong></li><li><code>a!sectionLayout()</code>: sezioni collassabili. Per form lunghi.</li><li><code>a!columnLayout()</code>: colonne con peso configurabile</li><li><code>a!boxLayout()</code>: contenitore con bordo</li><li><code>a!cardLayout()</code>: card cliccabile elevata</li><li><code>a!stampLayout()</code>: icona + testo. Per KPI.</li></ul><h4>Componenti Input</h4><ul><li><code>a!textField()</code>, <code>a!paragraphField()</code>, <code>a!integerField()</code></li><li><code>a!dropdownField()</code>, <code>a!checkboxField()</code>, <code>a!radioButtonField()</code></li><li><code>a!fileUploadField()</code>, <code>a!dateField()</code>, <code>a!dateTimeField()</code></li></ul><div class='tip'>Tutti i componenti input hanno il parametro <code>saveInto</code>: specifica dove salvare il valore.</div>","3.2":"<h4>Validazione — 3 Livelli</h4><ul><li><strong>Inline</strong>: parametro <code>validations</code> sul componente. Stringa vuota = nessun errore.</li><li><strong>Form-level</strong>: parametro <code>validations</code> su a!formLayout(). Errori globali in cima.</li><li><strong>Server-side</strong>: Expression Rule all'invio. Se restituisce stringa non vuota, form non inviato.</li></ul><h4>showWhen</h4><ul><li><code>showWhen: false</code> = componente <strong>rimosso dal DOM</strong>, non solo nascosto</li><li>I campi con showWhen:false NON vengono inviati al submit</li><li>Un campo obbligatorio con showWhen:false non blocca il submit</li></ul><div class='warn'>showWhen:false rimuove dal DOM. Diverso da display:none in CSS.</div><h4>a!refreshVariable()</h4><ul><li><code>refreshOnVarChange</code>: ricalcola quando la variabile cambia</li><li><code>refreshInterval</code>: polling ogni N secondi</li><li><code>refreshOnReferencedVarChange</code>: monitora tutte le var referenziate</li></ul><h4>a!isPageWidth()</h4><ul><li><code>NARROW</code> = mobile, <code>MEDIUM</code> = tablet, <code>WIDE</code> = desktop</li></ul>","3.3":"<h4>a!gridField()</h4><p>Griglia tabellare con: paginazione (a!pagingInfo), ordinamento colonne, selezione righe, editing inline, export CSV.</p><ul><li><strong>Read-only grid</strong>: solo visualizzazione</li><li><strong>Editable grid</strong>: celle modificabili inline</li></ul><h4>Links</h4><ul><li><code>a!recordLink()</code>: apre Summary View del Record Type</li><li><code>a!dynamicLink()</code>: azione custom al click (modal, aggiorna variabile)</li><li><code>a!urlLink()</code>: link esterno in nuova tab</li><li><code>a!startProcessLink()</code>: avvia processo Appian</li></ul><h4>Best Practices UI</h4><div class='warn'>Frequenti all'esame ACD100:</div><ul><li><strong>Colori</strong>: palette piccola e coerente (small, consistent color palette). Max 3-4 colori.</li><li><strong>Label</strong>: sempre sopra i campi</li><li><strong>Pulsanti</strong>: solo il principale come primary (colorato)</li><li><strong>Layout</strong>: a!sideBySideLayout() per top-level</li><li><strong>Responsive</strong>: testare con preview in Interface Designer</li></ul>","4.1":"<h4>Record Type</h4><p>Astrazione dati centrale di Appian. Rappresenta un'entità aziendale con dati, UI, relazioni, azioni e sicurezza.</p><h4>Sorgenti Dati</h4><ul><li><strong>Database Table</strong>: MySQL, Oracle, SQL Server, PostgreSQL. Supporta lettura e scrittura.</li><li><strong>Process Model</strong>: istanze processo. Le <strong>archiviate NON sono incluse.</strong></li><li><strong>Web Service</strong>: API esterne. Sola lettura dalla list/summary.</li><li><strong>Salesforce</strong>: tramite Salesforce Connected System nativo.</li></ul><div class='warn'>Process-backed records NON includono istanze archiviate. Domanda ricorrente ACD100.</div><h4>Auto-Generate</h4><ul><li><strong>List View</strong>: tabella con filtri e ordinamento</li><li><strong>Summary View</strong>: dettaglio singolo record</li><li><strong>User Filters</strong>: filtri applicabili dall'utente (Static o Expression-based)</li><li><strong>Related Actions</strong>: azioni contestuali collegate a processi</li><li><strong>Record Security</strong>: permessi di accesso</li></ul>","4.2":"<h4>CDT — Custom Data Type</h4><p>Tipo dato strutturato. Mappa tabella DB o oggetto JSON in un tipo Appian. Creato da Designer o auto-generato da DB table.</p><h4>Expression Rules</h4><ul><li>Accettano input via <code>ri!</code></li><li>Restituiscono un valore</li><li>Si chiamano con <code>rule!nomeRule(param: val)</code></li><li>Riutilizzabili da processi, interface, altre rules</li></ul><h4>a!queryRecordType()</h4><ul><li><code>recordType</code>: es. <code>recordType!Customer</code></li><li><code>filters</code>: a!queryFilter() o a!queryLogicalExpression()</li><li><code>pagingInfo</code>: a!pagingInfo(startIndex, batchSize, sort)</li><li><code>fields</code>: campi da restituire</li></ul><h4>a!queryFilter() — Operatori</h4><ul><li>=, != (uguaglianza)</li><li>IN, NOT_IN (appartenenza a lista)</li><li>BETWEEN (range)</li><li>IS_NULL, NOT_NULL</li><li>CONTAINS (substring)</li><li>STARTS_WITH</li></ul><h4>a!queryAggregation()</h4><p>Aggregazioni lato server: COUNT, SUM, AVG, MAX, MIN con grouping. Ottimizzata per grandi volumi.</p>","4.3":"<h4>Relazioni tra Record Types</h4><ul><li><strong>One-to-Many</strong>: es. Cliente → Ordini. FK nel record <strong>FIGLIO</strong>.</li><li><strong>Many-to-One</strong>: la relazione One-to-Many dal lato figlio.</li><li><strong>Many-to-Many</strong>: tabella di giunzione, due relazioni One-to-Many.</li></ul><p>Accesso: <code>recordType!Customer.relationships.orders</code>. JOIN generati automaticamente.</p><h4>User Filters</h4><ul><li><strong>Static</strong>: valori fissi predefiniti</li><li><strong>Expression-based</strong>: logica dinamica, può usare Constant, loggedInUser(), date calcolate</li></ul><h4>Record-Level Security</h4><ul><li><code>a!recordFilterList()</code>: filtri automatici per utente corrente</li><li><code>loggedInUser()</code>: username utente loggato</li><li><code>a!isUserInGroup()</code>: verifica membership gruppo</li></ul><div class='warn'>Per accesso via URL diretto servono: (1) Source security, (2) Record Type security, (3) Default filters. Tutti e tre.</div><div class='tip'>Record-level security applicata DOPO la source security. Entrambe vanno configurate.</div>","5.1":"<h4>Connected System</h4><p>Centralizza configurazione connessione: URL base, credenziali. Riutilizzabile da più Integration objects.</p><h4>Tipi di Integration</h4><ul><li><strong>REST</strong>: GET, POST, PUT, PATCH, DELETE</li><li><strong>SOAP</strong>: web service con WSDL</li><li><strong>OpenAPI</strong>: importa spec Swagger, genera operazioni automaticamente</li><li><strong>Database</strong>: SQL diretto SELECT/INSERT/UPDATE/DELETE</li></ul><h4>Autenticazione</h4><ul><li>No credentials, Basic Auth, API Key, OAuth 2.0 Auth Code, OAuth 2.0 Client Credentials, Client Certificate (mTLS)</li></ul><div class='warn'>Credenziali MAI hardcoded nel codice. Sempre nel Connected System.</div><h4>Integration REST</h4><ul><li>Metodi HTTP: GET, POST, PUT, PATCH, DELETE</li><li>Path relativo aggiunto a URL base del Connected System</li><li>Headers, Query Parameters, Body JSON</li><li>ri! per parametrizzare la chiamata</li></ul>","5.2":"<h4>Response Mapping</h4><ul><li><code>result.success</code>: true = HTTP 2xx, false = errore</li><li><code>result.statusCode</code>: codice HTTP</li><li><code>result.body</code>: risposta come CDT Appian</li><li><code>result.error</code>: messaggio errore</li></ul><p>Accesso: <code>rule!miaIntegration(param: val).body.campo</code></p><h4>Error Handling</h4><ul><li>Verificare SEMPRE result.success prima di usare i dati</li><li>Error Boundary sul Service Task per fallimenti API</li><li>Retry logic: loop con Gateway XOR + counter pv!tentativi</li></ul><div class='tip'>Integration invocabili da: Expression Rule (interface) con rule!nome() oppure da Service Task (processo).</div><h4>Database Integration</h4><ul><li>SELECT → risultati mappati su CDT automaticamente</li><li>Parametri via ri! per prevenire SQL injection</li><li>Timeout default: 30 secondi</li></ul>","6.1":"<h4>Sicurezza Group-Based</h4><p>Permessi assegnati ai <strong>gruppi</strong>, non agli utenti. Gli utenti ereditano permessi dai gruppi di appartenenza.</p><h4>5 Livelli di Permesso</h4><ul><li><strong>Administrator</strong>: accesso totale</li><li><strong>Editor</strong>: visualizza e modifica</li><li><strong>Initiator</strong>: SOLO avvia process models</li><li><strong>Viewer</strong>: sola lettura</li><li><strong>Deny</strong>: accesso negato esplicito. <strong>Priorità MASSIMA</strong>, sovrascrive tutto.</li></ul><div class='tip'>Priorità: Deny sopra tutto, poi Administrator, Editor, Initiator, Viewer.</div><h4>Nested Groups</h4><ul><li>Gruppi gerarchici: figlio eredita AUTOMATICAMENTE permessi del padre</li><li>Es. APP_Senior_Manager (figlio) eredita permessi di APP_Manager (padre)</li></ul><h4>Best Practices</h4><ul><li>Creare gruppi per ruolo: APP_Admins, APP_Editors, APP_Viewers</li><li>Assegnare permessi ai <strong>Folder</strong> dell'app, NON ai singoli oggetti</li><li>MAI assegnare permessi direttamente agli utenti</li></ul>","6.2":"<h4>Record Type Security — 3 Livelli</h4><ol><li><strong>Record Type Level</strong>: chi vede la lista (List View)</li><li><strong>Record Level</strong>: chi vede il singolo record via a!recordFilterList()</li><li><strong>Action Security</strong>: chi esegue le Related Actions</li></ol><h4>a!recordFilterList()</h4><ul><li>Filtri automatici per utente corrente</li><li>Esempio: <code>field: owner, operator: =, value: loggedInUser()</code></li><li>Manager vede tutti, altri solo i propri: usa a!isUserInGroup() nella condizione</li></ul><div class='warn'>Record-level security applicata DOPO source security. Per deep link URL: source + record type + default filters.</div><h4>Sicurezza Integration</h4><ul><li>Credenziali nel Connected System, MAI hardcoded</li><li>Token OAuth gestiti da Appian automaticamente</li><li>SSL/TLS obbligatorio per API esterne</li></ul><h4>SDLC Security</h4><ul><li>Sviluppatori: accesso DEV e TEST, NON PROD</li><li>Log audit per azioni su oggetti critici</li></ul>","7.1":"<h4>Appian Sites</h4><p>Portale web multi-pagina configurabile. Tipi di pagine:</p><ul><li><strong>Record List</strong>: lista Record Type con filtri</li><li><strong>Interface</strong>: qualsiasi Interface SAIL custom</li><li><strong>Report</strong>: dashboard con grafici KPI</li><li><strong>Action</strong>: avvio diretto processo nel Site</li></ul><h4>Navigazione</h4><ul><li>Menu configurabile, visibilità pagine per gruppo tramite showWhen</li><li>URL personalizzabile per ogni pagina</li><li>Branding: logo, colori, favicon</li></ul><h4>Tempo</h4><p>Interfaccia standard Appian: News Feed, Task List, Actions, Records. NON customizzata come i Sites.</p><div class='tip'>Sites = portale custom. Tempo = interfaccia standard. L'esame distingue i due.</div><h4>Portals</h4><ul><li>Siti accessibili <strong>pubblicamente senza login Appian</strong></li><li>Per: form pubblici, richieste clienti esterni, survey</li><li>Richiedono Portals Connected System separato</li><li>NON accedono ai dati interni Appian</li></ul>","7.2":"<h4>Componenti Chart</h4><ul><li><code>a!barChartField()</code>: barre orizzontali</li><li><code>a!columnChartField()</code>: colonne verticali</li><li><code>a!lineChartField()</code>: linee (trend temporali)</li><li><code>a!areaChartField()</code>: area sotto la linea</li><li><code>a!pieChartField()</code>: torta (proporzioni)</li><li><code>a!gaugeField()</code>: gauge circolare KPI con target</li><li><code>a!scatterChartField()</code>: scatter plot (correlazioni)</li></ul><h4>Dati per i Chart</h4><ul><li><code>a!queryRecordType()</code>: dati dal Record Type</li><li><code>a!queryAggregation()</code>: COUNT, SUM, AVG, MAX, MIN con grouping. Calcola lato DB. Per grandi volumi.</li></ul><div class='tip'>a!queryAggregation() è la scelta corretta per grafici su grandi volumi. Calcola lato database, non carica tutto in memoria.</div><h4>KPI Dashboard</h4><ul><li>a!stampLayout() per metriche semplici</li><li>a!gaugeField() per target percentuale</li><li>a!refreshVariable(refreshInterval: 300) per aggiornamento automatico ogni 5 min</li></ul>","8.1":"<h4>Appian AI Skills</h4><p>Capacità AI pre-costruite integrabili senza data science.</p><h4>Document Extraction</h4><ul><li>Estrae dati strutturati da PDF, JPEG, PNG, Word</li><li>Tecnologie: OCR + Machine Learning</li><li>Funzione: <code>a!extractDocumentData()</code></li><li>Output: CDT con campi estratti e livello confidenza</li><li>Use cases: fatture, contratti, moduli cartacei</li></ul><h4>Classification</h4><ul><li>Categorizza documenti in categorie predefinite</li><li>Output: categoria + confidenza percentuale</li><li>Use cases: smistamento email, routing pratiche</li></ul><h4>Generative AI</h4><ul><li>LLM via Connected System AI (OpenAI, Azure OpenAI, Google Vertex)</li><li>Use cases: riassunti, bozze email, traduzione, Q&A</li></ul><h4>Pattern Human-in-the-Loop</h4><div class='tip'>Service Task (Document Extraction) → User Input Task (Human Review) → Gateway XOR (confidenza alta = auto-approvazione, bassa = revisione manuale) → salva dati.</div>","8.2":"<h4>Appian RPA (da Jidoka)</h4><p>Automatizza operazioni su sistemi legacy senza API: click, form, copia-incolla, navigazione web, Excel, SAP.</p><h4>Attended vs Unattended</h4><ul><li><strong>Attended</strong>: robot con utente presente al PC</li><li><strong>Unattended</strong>: robot autonomo su server, senza utente, 24/7</li></ul><h4>Integrazione nei Processi</h4><ul><li>Nodo <strong>Robotic Task</strong> invoca il robot</li><li>Il processo passa dati al robot come input</li><li>Il robot restituisce risultati come output nelle pv!</li><li>Error Boundary gestisce fallimenti robot</li></ul><h4>Control Room</h4><ul><li>Inventario robot (stato: online/offline/in uso)</li><li>Scheduling esecuzioni</li><li>Monitoraggio e log dettagliati</li><li>Gestione errori e alerting</li></ul><h4>Process Mining</h4><ul><li>Analisi log reali: colli di bottiglia, deviazioni, KPI di processo</li></ul><h4>Data Fabric</h4><ul><li>Connette sorgenti eterogenee <strong>senza replicare i dati</strong></li><li>Record Types = punto di accesso unificato</li></ul><div class='tip'>Data Fabric = federazione dati in tempo reale. Record Types accedono a DB, API, Salesforce come se fossero una sorgente unica.</div>"},"CHAPTERS":[{"id":1,"emoji":"🏗️","title":"Piattaforma Appian","tag":"Fondamenti","xp":120,"docs":"https://docs.appian.com/suite/help/26.4/introduction-to-application-building.html","summary":"Appian è piattaforma low-code enterprise con BPM, AI, RPA, Data Fabric. Sviluppo via browser (Appian Designer). Oggetti nelle Applications, distribuiti tramite Package DEV→TEST→PROD. Cloud su AWS, SLA 99.9%. Esame ACD100: 60 domande, 60 min, soglia 62%.","map":{"c":"APPIAN PLATFORM","n":["Low-Code BPM","Process Mining","AI Skills","RPA Jidoka","Data Fabric","Appian Designer","AWS 99.9%","DEV→TEST→PROD","Sites Portals","Record Types","Integrations","Expression Rules"]},"lessons":[{"id":"1.1","title":"Cos'è Appian e casi d'uso","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/introduction-to-application-building.html","quiz":[{"q":"Appian è classificata come:","opts":["No-code","Low-code","Full-code","ERP"],"ans":1},{"q":"Appian Cloud è basata su:","opts":["Azure","Google Cloud","Amazon AWS","IBM Cloud"],"ans":2},{"q":"Quale tecnologia automatizza sistemi legacy senza API?","opts":["AI Skills","Data Fabric","RPA","Process Mining"],"ans":2},{"q":"SLA Appian Cloud:","opts":["99.0%","99.5%","99.9%","100%"],"ans":2},{"q":"NON è caso d'uso tipico Appian:","opts":["Approvazioni HR","Case Management","Sviluppo videogiochi","Compliance"],"ans":2}]},{"id":"1.2","title":"Appian Designer e oggetti","dur":"12 min","docs":"https://docs.appian.com/suite/help/26.4/Appian_Designer.html","quiz":[{"q":"Sezione che mostra processi in esecuzione:","opts":["Build","Deploy","Monitor","Governance"],"ans":2},{"q":"CDT è:","opts":["Tipo processo","Tipo dato strutturato","Componente UI","Gateway"],"ans":1},{"q":"Le Constant possono avere:","opts":["Un valore globale","Valori diversi per ambiente","Solo numeri","Solo stringhe"],"ans":1},{"q":"Oggetto con logica decisionale DMN:","opts":["Expression Rule","Process Model","Decision","Integration"],"ans":2},{"q":"Appian Designer richiede:","opts":["Java JDK","Node.js","Nessuna installazione","Visual Studio"],"ans":2}]},{"id":"1.3","title":"SDLC e Ambienti Appian","dur":"9 min","docs":"https://docs.appian.com/suite/help/26.4/Deployment.html","quiz":[{"q":"Flusso deployment corretto:","opts":["PROD→TEST→DEV","DEV→TEST→PROD","TEST→DEV→PROD","DEV→PROD"],"ans":1},{"q":"Compare and Deploy serve a:","opts":["Performance test","Vedere differenze tra ambienti","Backup","Monitorare errori"],"ans":1},{"q":"UAT si svolge in:","opts":["DEV","TEST/QA","PROD","Locale"],"ans":1},{"q":"Oggetti Appian si modificano in:","opts":["Direttamente PROD","Solo DEV poi si deploya","In tutti gli ambienti","In TEST poi si copia"],"ans":1},{"q":"Package include:","opts":["Solo oggetti modificati","Oggetti selezionati con dipendenze","Tutti gli oggetti","Solo Process Models"],"ans":1}]}],"cQuiz":[{"q":"Componente per portali web multi-pagina:","opts":["Records","Sites","Integrations","Process Models"],"ans":1},{"q":"Sezione Designer per utenti e gruppi:","opts":["Build","Monitor","Deploy","Governance"],"ans":3},{"q":"Applicazione Appian è:","opts":["Un process model","Contenitore logico di oggetti","Un database","Un portale"],"ans":1},{"q":"Process Mining serve a:","opts":["RPA automation","Analizzare e ottimizzare processi","Creare UI","Gestire security"],"ans":1},{"q":"Esame ACD100:","opts":["30 dom 45min","60 dom 60min","90 dom 90min","40 dom 60min"],"ans":1}]},{"id":2,"emoji":"⚙️","title":"Process Models","tag":"Processi","xp":160,"docs":"https://docs.appian.com/suite/help/26.4/process_modeling.html","summary":"Process Model = workflow BPMN. Nodi: User Input Task (form+assegnatario), Script Task (expression rule), Service Task (API). Gateway: XOR (un ramo, serve default flow), AND (tutti i rami paralleli). pv! = variabili processo. Boundary Events (Timer, Error) gestiscono eccezioni. Smart Services = nodi precostituiti.","map":{"c":"PROCESS MODELS","n":["User Input Task","Script Task","Service Task","XOR Gateway","AND Gateway","Boundary Events","pv! Variables","Smart Services","Sub-Process","Start End Event","Exception Handler","ac! Task Inputs"]},"lessons":[{"id":"2.1","title":"Nodi e Process Variables","dur":"14 min","docs":"https://docs.appian.com/suite/help/26.4/process_modeling.html","quiz":[{"q":"Prefisso variabili di processo:","opts":["var!","pv!","local!","ac!"],"ans":1},{"q":"User Input Task richiede:","opts":["Solo codice","Form + assegnatario","Chiamata API","Gateway XOR"],"ans":1},{"q":"ac! si riferisce a:","opts":["Variabili processo","Input task corrente","Variabili UI","Costanti"],"ans":1},{"q":"Script Task esegue:","opts":["Form utente","Expression rule in background","Chiamata API","Robot RPA"],"ans":1},{"q":"Sub-Process è:","opts":["Tipo di gateway","Processo annidato","Tipo variabile","Integration"],"ans":1}]},{"id":"2.2","title":"Gateway, Smart Services","dur":"12 min","docs":"https://docs.appian.com/suite/help/26.4/process-model-object.html","quiz":[{"q":"AND Gateway percorre:","opts":["Un solo ramo","Tutti i rami","Solo il default","Ramo con score alto"],"ans":1},{"q":"Default flow su XOR evita:","opts":["Errori validazione","Processi bloccati","Lentezza query","Log eccessivi"],"ans":1},{"q":"Smart Service per scrivere nel DB:","opts":["Send Email","Set Process Variable","Write to Data Store Entity","Create Task"],"ans":2},{"q":"Condizione arco XOR scritta in:","opts":["JavaScript","SQL","Appian Expression Language","Python"],"ans":2},{"q":"Write to Data Store Entity richiede Editor su:","opts":["Process Model","Data Store","Record Type","Integration"],"ans":1}]},{"id":"2.3","title":"Boundary Events ed Eccezioni","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/Working_with_Data_in_Process.html","quiz":[{"q":"Processo con errore non gestito:","opts":["COMPLETED","ERROR","CANCELLED","PAUSED"],"ans":2},{"q":"Quale Boundary scatta dopo un tempo:","opts":["Error","Signal","Timer","Message"],"ans":2},{"q":"Pattern Escalation usa:","opts":["AND Gateway","Timer Boundary su User Task","Error Boundary","Sub-Process"],"ans":1},{"q":"Boundary interrupting (bordo pieno):","opts":["Riprende il task","Termina il task","Invia notifica","Crea pv!"],"ans":1},{"q":"Exception Handler gestisce:","opts":["Solo timeout","Errori non catchati da boundary","Solo errori rete","Errori validazione"],"ans":1}]}],"cQuiz":[{"q":"Prefisso variabili processo:","opts":["var!","local!","pv!","ri!"],"ans":2},{"q":"XOR Gateway percorre:","opts":["Tutti i rami","Un solo ramo","Nessun ramo","Rami casuali"],"ans":1},{"q":"Smart Services sono:","opts":["Funzioni Expression","Nodi precostituiti per operazioni","Tipi gateway","Boundary Events"],"ans":1},{"q":"Stato dopo errore non gestito:","opts":["COMPLETED","PAUSED","CANCELLED","ACTIVE"],"ans":2},{"q":"Smart Service per avviare processo figlio:","opts":["Create Task","Send Email","Start Process","Set Process Variable"],"ans":2}]},{"id":3,"emoji":"🎨","title":"SAIL e Interface Design","tag":"UI/UX","xp":150,"docs":"https://docs.appian.com/suite/help/26.4/sail/sail-design-system-overview.html","summary":"SAIL = Self-Assembling Interface Layer, framework UI responsive in Expression Language. local! = stato UI, ri! = input esterni. a!sideBySideLayout() raccomandato per top-level. showWhen:false rimuove dal DOM. a!refreshVariable() aggiorna reattivamente. a!gridField() per tabelle. Best practice colori: palette piccola e coerente.","map":{"c":"SAIL INTERFACES","n":["a!formLayout()","a!sideBySideLayout()","local! variables","ri! Rule Inputs","showWhen","a!gridField()","a!refreshVariable()","a!validationMessage()","a!buttonLayout()","a!sectionLayout()","a!isPageWidth()","a!recordLink()"]},"lessons":[{"id":"3.1","title":"Framework SAIL e Layout","dur":"13 min","docs":"https://docs.appian.com/suite/help/26.4/sail/sail-design-system-overview.html","quiz":[{"q":"SAIL significa:","opts":["System App Interface","Self-Assembling Interface Layer","Scalable AI Logic","Simple Appian Interface"],"ans":1},{"q":"Layout top-level raccomandato:","opts":["a!columnLayout()","a!formLayout()","a!sideBySideLayout()","a!boxLayout()"],"ans":2},{"q":"ri! sono:","opts":["Variabili locali","Rule Inputs (dati dall'esterno)","Variabili processo","Costanti"],"ans":1},{"q":"Funzione per aggiornare local variable:","opts":["a!update()","a!set()","a!save()","a!setValue()"],"ans":2},{"q":"a!sectionLayout() crea:","opts":["Elementi affiancati","Sezioni collassabili","Tabelle","Upload"],"ans":1}]},{"id":"3.2","title":"Validazioni, showWhen e Refresh","dur":"11 min","docs":"https://docs.appian.com/suite/help/26.4/sail/sail-design-system-overview.html","quiz":[{"q":"showWhen: false fa cosa?","opts":["Rende grigio","Nasconde nel DOM","Rimuove dal DOM","Disabilita"],"ans":2},{"q":"a!refreshVariable() refreshOnVarChange:","opts":["Ad ogni click","Quando variabile specificata cambia","Ogni 5 secondi","Al submit"],"ans":1},{"q":"validateAfter SUBMIT mostra il messaggio:","opts":["Real-time","Solo dopo click Submit","Al caricamento","Mai"],"ans":1},{"q":"Layout responsive mobile/desktop:","opts":["a!pageWidth()","a!screenSize()","a!isPageWidth()","a!getWidth()"],"ans":2},{"q":"Validazione form-level su:","opts":["Ogni campo","a!formLayout()","a!sectionLayout()","a!buttonLayout()"],"ans":1}]},{"id":"3.3","title":"Grid, Record Links e Best Practices","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/Read-Only_Grid_Component.html","quiz":[{"q":"Griglia con paginazione e ordinamento:","opts":["a!textField()","a!listField()","a!gridField()","a!tableField()"],"ans":2},{"q":"a!recordLink() apre:","opts":["Link esterno","Summary View del record","Modal","Altro processo"],"ans":1},{"q":"Best practice colori UI Appian:","opts":["Molti colori vivaci","Shades stesso colore","Palette piccola e coerente","Colori casuali"],"ans":2},{"q":"a!dynamicLink() serve per:","opts":["Link fissi URL","Navigazione record","Link con azione custom","Link email"],"ans":2},{"q":"Test responsività in Designer:","opts":["Download app su device","Preview in Interface Designer","Solo a!isPageWidth()","Test manuale"],"ans":1}]}],"cQuiz":[{"q":"local! in SAIL è:","opts":["Variabile processo","Variabile locale UI","Rule Input","Costante"],"ans":1},{"q":"showWhen: false:","opts":["Nasconde visualmente","Rimuove dal DOM","Disabilita","Cambia colore"],"ans":1},{"q":"Griglia con celle modificabili:","opts":["Read-only grid","Editable grid","a!recordLink()","a!listField()"],"ans":1},{"q":"a!refreshVariable() refreshOnVarChange:","opts":["Tutte le variabili","Variabile specificata","Solo pv!","Solo ri!"],"ans":1},{"q":"Layout top-level:","opts":["a!columnLayout()","a!sideBySideLayout()","a!formLayout()","a!boxLayout()"],"ans":1}]},{"id":4,"emoji":"🗄️","title":"Records e Data","tag":"Dati","xp":170,"docs":"https://docs.appian.com/suite/help/26.4/records-overview.html","summary":"Record Type = astrazione dati Appian. Sorgenti: DB Table, Process Model (no istanze archiviate), Web Service, Salesforce. Auto-genera List View, Summary View, User Filters, Related Actions, security. CDT = Custom Data Type. Query: a!queryRecordType(). Relazioni One-to-Many (FK nel figlio), JOIN automatici. Record-level security: a!recordFilterList() + loggedInUser().","map":{"c":"RECORDS AND DATA","n":["Record Type","DB Table","CDT Custom Data Type","a!queryRecordType()","a!queryLogicalExpression()","Relationships","Related Actions","User Filters","a!recordFilterList()","loggedInUser()","Process-Backed Records","Salesforce Connector"]},"lessons":[{"id":"4.1","title":"Record Types e Sorgenti Dati","dur":"14 min","docs":"https://docs.appian.com/suite/help/26.4/record-type-object.html","quiz":[{"q":"Sorgente NON supportata da Record Type:","opts":["Database Table","Excel File","Web Service","Salesforce"],"ans":1},{"q":"Process-backed records includono:","opts":["Tutte le istanze","Solo attive non archiviate","Archiviate comprese","Solo in errore"],"ans":1},{"q":"NON auto-generato con Record Type:","opts":["List View","Summary View","Process Model","User Filters"],"ans":2},{"q":"Related Actions sono:","opts":["Report automatici","Azioni contestuali sul record","Filtri ricerca","Campi calcolati"],"ans":1},{"q":"Connettore Salesforce usa:","opts":["REST generica","Salesforce Connected System nativo","Database Integration","SOAP"],"ans":1}]},{"id":"4.2","title":"CDT, Query e Expression Rules","dur":"13 min","docs":"https://docs.appian.com/suite/help/26.4/Expression_Rule_Object.html","quiz":[{"q":"CDT serve a:","opts":["Creare gateway","Definire tipi dato strutturati","Gestire sicurezza","Configurare integrazioni"],"ans":1},{"q":"Expression Rules accettano input via:","opts":["pv!","local!","ri!","ac!"],"ans":2},{"q":"Filtri multipli AND/OR:","opts":["a!queryFilter()","a!queryLogicalExpression()","a!multiFilter()","a!filterGroup()"],"ans":1},{"q":"a!pagingInfo() gestisce:","opts":["Sicurezza dati","Paginazione e ordinamento","Validazione","Upload"],"ans":1},{"q":"Chiamata Expression Rule:","opts":["call!ruleName()","execute!ruleName()","rule!ruleName()","invoke!ruleName()"],"ans":2}]},{"id":"4.3","title":"Relazioni, Filtri e Security","dur":"11 min","docs":"https://docs.appian.com/suite/help/26.4/record-relationships.html","quiz":[{"q":"In One-to-Many la FK è nel:","opts":["Padre","Figlio","Entrambi","Nessuno"],"ans":1},{"q":"a!recordFilterList() serve a:","opts":["Filtrare query DB","Sicurezza a livello record","Paginare","Creare user filters"],"ans":1},{"q":"Expression-based user filters permettono:","opts":["Solo filtri statici","Espressioni Appian incluse Constant","Solo filtri date","Solo numerici"],"ans":1},{"q":"Accesso record via URL richiede:","opts":["Solo record type security","Solo source security","Source + record type + default filters","Solo loggedInUser()"],"ans":2},{"q":"loggedInUser() restituisce:","opts":["Nome applicazione","Gruppo utente","Username utente loggato","Server hostname"],"ans":2}]}],"cQuiz":[{"q":"Quale sorgente non include istanze archiviate?","opts":["Database","Salesforce","Process Model","Web Service"],"ans":2},{"q":"CDT sta per:","opts":["Custom Design Tool","Custom Data Type","Certified Data Template","Common Data Type"],"ans":1},{"q":"a!queryRecordType() ottimizzata per:","opts":["Query DB raw","Record Types con relazioni","Solo aggregazioni","Solo filtri statici"],"ans":1},{"q":"One-to-Many: FK nel:","opts":["Padre","Figlio","Tabella separata","Non c'e FK"],"ans":1},{"q":"Record-level security usa:","opts":["SQL WHERE manuale","a!recordFilterList()","pv!security","Solo groups"],"ans":1}]},{"id":5,"emoji":"🔌","title":"Integrations","tag":"Integrazioni","xp":150,"docs":"https://docs.appian.com/suite/help/26.4/Integrations_Overview.html","summary":"Connected System centralizza URL e credenziali. Tipi: REST, SOAP, OpenAPI (importa Swagger), Database (SQL). Auth: OAuth 2.0, API Key, Basic Auth, Client Certificate. Credenziali MAI hardcoded. Response: result.success, result.body. Invocazione: rule!nome() da Expression Rule o Service Task.","map":{"c":"INTEGRATIONS","n":["Connected System","REST Integration","SOAP Integration","OpenAPI Import","Database Integration","OAuth 2.0","API Key Auth","Basic Auth","result.success","result.body","ri! Parameters","Service Task Call"]},"lessons":[{"id":"5.1","title":"Connected Systems e Tipi","dur":"12 min","docs":"https://docs.appian.com/suite/help/26.4/Connected_System_Object.html","quiz":[{"q":"Connected System centralizza:","opts":["Business logic","URL base e credenziali","Process Models","Interface SAIL"],"ans":1},{"q":"OpenAPI Integration:","opts":["Crea DB","Importa spec Swagger generando operazioni","Disegna UI","Configura RPA"],"ans":1},{"q":"Quale auth usa token bearer?","opts":["Basic Auth","API Key","OAuth 2.0","No credentials"],"ans":2},{"q":"Database Integration esegue:","opts":["Solo SELECT","Solo REST","SQL SELECT/INSERT/UPDATE/DELETE","Solo stored proc"],"ans":2},{"q":"Credenziali API vanno:","opts":["Hardcoded nel codice","Nel Connected System","In una pv!","In una Constant"],"ans":1}]},{"id":"5.2","title":"Response Mapping e Error Handling","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/REST_Integration.html","quiz":[{"q":"result di una Integration contiene:","opts":["Solo errori","La risposta mappata","Le credenziali","Il codice HTTP"],"ans":1},{"q":"result.success = false indica:","opts":["Chiamata riuscita","Chiamata fallita","Timeout","Auth scaduta"],"ans":1},{"q":"ri! in Integration servono a:","opts":["Configurare sicurezza","Parametrizzare la chiamata","Mappare risposta","Gestire errori"],"ans":1},{"q":"Chiamata Integration da Expression Rule:","opts":["call!nome()","rule!nome()","integration!nome()","service!nome()"],"ans":1},{"q":"URL base REST configurata:","opts":["Nell'Integration object","Nel Connected System","In una Constant","Nel Process Model"],"ans":1}]}],"cQuiz":[{"q":"Quale Integration importa spec Swagger?","opts":["REST","SOAP","OpenAPI","Database"],"ans":2},{"q":"OAuth 2.0 per:","opts":["Sicurezza record","Autenticazione API","Deployment","Gestione utenti"],"ans":1},{"q":"result.success controlla:","opts":["Performance","Se la chiamata e' riuscita","Numero risultati","Versione API"],"ans":1},{"q":"Connected System riutilizzabile da:","opts":["Una sola Integration","Piu Integration objects","Solo il processo","Solo interface"],"ans":1},{"q":"Credenziali API:","opts":["Hardcoded","Nel Connected System","In pv!","In ri!"],"ans":1}]},{"id":6,"emoji":"🔐","title":"Security e Permessi","tag":"Sicurezza","xp":150,"docs":"https://docs.appian.com/suite/help/26.4/Object_Security.html","summary":"Sicurezza Appian = group-based. Permessi ai gruppi, non agli utenti. Livelli: Administrator, Editor, Initiator (avvia processi), Viewer (sola lettura), Deny (esplicito, priorita massima). Nested groups ereditano dal padre. Record-level security: a!recordFilterList() + loggedInUser(). Best practice: permessi ai folder, non ai singoli oggetti.","map":{"c":"APPIAN SECURITY","n":["Group-Based Security","Administrator","Editor","Initiator","Viewer","Deny max priority","Nested Groups","Record-Level Security","loggedInUser()","Connected System Creds","Folder Permissions","Action Security"]},"lessons":[{"id":"6.1","title":"Modello Security e Groups","dur":"12 min","docs":"https://docs.appian.com/suite/help/26.4/Object_Security.html","quiz":[{"q":"Permessi Appian assegnati a:","opts":["Singoli utenti","Gruppi","Ruoli sistema","Tutti"],"ans":1},{"q":"Permesso Deny:","opts":["La priorita piu bassa","Media","La piu alta, sovrascrive tutto","Uguale a Viewer"],"ans":2},{"q":"Initiator permette di:","opts":["Solo leggere","Modificare oggetti","Avviare process models","Amministrare"],"ans":2},{"q":"Nested groups ereditano:","opts":["Nessun permesso","Permessi del padre","Solo Viewer","Permessi del figlio"],"ans":1},{"q":"Permessi si assegnano ai:","opts":["Singoli oggetti","Folder dell'app","Solo process models","Direttamente agli utenti"],"ans":1}]},{"id":"6.2","title":"Record Security e Avanzata","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/record-security.html","quiz":[{"q":"a!recordFilterList() si basa su:","opts":["Gruppo utente","loggedInUser()","Ruolo processo","Tipo record"],"ans":1},{"q":"Record-level security applicata:","opts":["Prima della source security","Dopo la source security","Indipendentemente","Solo per admin"],"ans":1},{"q":"OAuth tokens nelle Integration gestiti da:","opts":["Sviluppatore manualmente","Appian automaticamente","Connected System manuale","Process model"],"ans":1},{"q":"API esterne richiedono:","opts":["HTTP semplice","SSL/TLS HTTPS","FTP","SMTP"],"ans":1},{"q":"Action Security controlla:","opts":["Chi vede la lista","Chi esegue Related Actions","Chi crea record","Chi vede filtri"],"ans":1}]}],"cQuiz":[{"q":"Permesso che sovrascrive tutto:","opts":["Administrator","Editor","Deny","Initiator"],"ans":2},{"q":"Security Appian basata su:","opts":["Singoli utenti","Gruppi","Ruoli sistema","App ID"],"ans":1},{"q":"a!recordFilterList() usa:","opts":["Il gruppo","loggedInUser()","La pv!","Il CDT"],"ans":1},{"q":"Permesso per avviare process models:","opts":["Viewer","Editor","Initiator","Administrator"],"ans":2},{"q":"Nested groups ereditano dal:","opts":["Figlio","Padre","Entrambi","Nessuno"],"ans":1}]},{"id":7,"emoji":"📊","title":"Sites, Portals e Report","tag":"Frontend","xp":140,"docs":"https://docs.appian.com/suite/help/26.4/Sites.html","summary":"Sites = portali web multi-pagina custom (Record List, Interface, Report, Action). Tempo = interfaccia standard Appian. Portals = siti pubblici senza login. Chart: a!barChartField(), a!lineChartField(), a!pieChartField(), a!gaugeField(). Dati via a!queryRecordType() o a!queryAggregation() (COUNT/SUM/AVG/MAX/MIN raggruppati).","map":{"c":"SITES AND REPORTING","n":["Appian Sites","Record List Page","Interface Page","Action Page","Tempo Feed","Task Report","a!barChartField()","a!lineChartField()","a!gaugeField()","a!queryAggregation()","Public Portals","Branding Styles"]},"lessons":[{"id":"7.1","title":"Sites, Tempo e Portals","dur":"10 min","docs":"https://docs.appian.com/suite/help/26.4/Sites.html","quiz":[{"q":"Un Site Appian e':","opts":["Un singolo report","Portale web multi-pagina","Tipo di processo","Integration"],"ans":1},{"q":"Tempo vs Sites:","opts":["Tempo e' piu veloce","Tempo=standard Appian Sites=portali custom","Sites piu utenti","Tempo usa React"],"ans":1},{"q":"Portals accessibili:","opts":["Solo admin","Solo utenti Appian","Pubblicamente senza login","Solo VPN"],"ans":2},{"q":"Visibilita' pagina Site per gruppo:","opts":["a!securityFilter()","showWhen","groupFilter()","a!pagePermission()"],"ans":1},{"q":"Tipo pagina che avvia un processo:","opts":["Record List","Interface","Report","Action"],"ans":3}]},{"id":"7.2","title":"Report, Chart e Dashboard","dur":"9 min","docs":"https://docs.appian.com/suite/help/26.4/introduction-to-application-building.html","quiz":[{"q":"Gauge circolare KPI:","opts":["a!pieChartField()","a!gaugeField()","a!circleChart()","a!kpiField()"],"ans":1},{"q":"a!queryAggregation() calcola:","opts":["JOIN tabelle","COUNT/SUM/AVG raggruppati","Validazioni","Sicurezza record"],"ans":1},{"q":"Grafico trend nel tempo:","opts":["a!barChartField()","a!pieChartField()","a!lineChartField()","a!gaugeField()"],"ans":2},{"q":"Dati per i chart da:","opts":["Solo CSV","Query record o expression rule","Solo DB diretto","Solo API"],"ans":1},{"q":"Portals per:","opts":["Solo utenti Appian","Solo admin","Utenti esterni senza login","Solo mobile"],"ans":2}]}],"cQuiz":[{"q":"Site aggrega:","opts":["Solo process models","Record Lists Interfaces Reports Actions","Solo report","Solo record"],"ans":1},{"q":"Portals accessibili:","opts":["Solo internamente","Pubblicamente senza login","Solo admin","Solo API"],"ans":1},{"q":"a!gaugeField() e' per:","opts":["Barre","KPI gauge circolare","Scatter plot","Tabelle"],"ans":1},{"q":"Tempo e':","opts":["Portale custom","Interfaccia standard Appian","Tipo record","Process model"],"ans":1},{"q":"a!queryAggregation() supporta:","opts":["Solo COUNT","COUNT SUM AVG MAX MIN","Solo SUM e AVG","Solo raggruppamenti"],"ans":1}]},{"id":8,"emoji":"🤖","title":"AI, RPA e Advanced","tag":"Avanzato","xp":200,"docs":"https://docs.appian.com/suite/help/26.4/Appian_AI_Overview.html","summary":"AI Skills: Document Extraction (OCR+ML), Classification, Generative AI (LLM via Connected System). Pattern: AI estrae, Human Review valida. RPA da Jidoka: Attended (con utente) e Unattended (autonomo server). Robot invocati da Robotic Task. Control Room: robot scheduling monitoraggio. Process Mining: analisi log. Data Fabric: connette sorgenti senza replicare.","map":{"c":"AI AND ADVANCED","n":["Document Extraction","Classification AI","Generative AI","RPA Jidoka","Robotic Task","Control Room","Attended RPA","Unattended RPA","Process Mining","Data Fabric","AI Connected System","Human in the Loop"]},"lessons":[{"id":"8.1","title":"Appian AI Skills","dur":"11 min","docs":"https://docs.appian.com/suite/help/26.4/Appian_AI_Overview.html","quiz":[{"q":"AI Skill per estrarre dati da PDF:","opts":["Classification","Generative AI","Document Extraction","Sentiment Analysis"],"ans":2},{"q":"AI Skills nei processi come:","opts":["User Input Task","Script Task","Service Task","Gateway"],"ans":2},{"q":"Document Extraction usa:","opts":["Solo regex","OCR + Machine Learning","Solo template","Solo PDF parsing"],"ans":1},{"q":"Generative AI si configura tramite:","opts":["Process Model","Connected System AI","Record Type","Expression Rule"],"ans":1},{"q":"Pattern AI dopo Document Extraction:","opts":["Eliminazione documento","Human Review Task","Email automatica","Chiusura processo"],"ans":1}]},{"id":"8.2","title":"RPA, Process Mining e Data Fabric","dur":"12 min","docs":"https://docs.appian.com/suite/help/26.4/Appian_RPA.html","quiz":[{"q":"RPA Appian basata su:","opts":["UiPath","Blue Prism","Jidoka","Automation Anywhere"],"ans":2},{"q":"Robot autonomo su server:","opts":["Attended RPA","Unattended RPA","Semi-attended","Manual RPA"],"ans":1},{"q":"Nodo per invocare un robot:","opts":["Service Task","User Input Task","Robotic Task","Script Task"],"ans":2},{"q":"Process Mining analizza:","opts":["Codice sorgente","Log dei processi","Struttura DB","Interface SAIL"],"ans":1},{"q":"Data Fabric connette sorgenti:","opts":["Replicando i dati","Senza replicare i dati","Solo DB locali","Solo REST"],"ans":1}]}],"cQuiz":[{"q":"Document Extraction usa:","opts":["Solo regex","OCR + ML","Solo template","Solo metadati"],"ans":1},{"q":"Robotic Task invoca:","opts":["Expression rule","Robot RPA","Integration","Sub-process"],"ans":1},{"q":"Control Room gestisce:","opts":["Solo processi errore","Robot scheduling monitoraggio RPA","Sicurezza gruppi","Record Types"],"ans":1},{"q":"Data Fabric:","opts":["Replica tutti i dati","Connette sorgenti senza replicazione","Sostituisce DB","Crea backup"],"ans":1},{"q":"RPA Attended significa:","opts":["Robot autonomo server","Robot con utente presente","Robot via API","Robot cloud-only"],"ans":1}]}],"EXAM":[{"q":"Appian e' classificata come:","opts":["No-code","Low-code","Full-code","ERP"],"ans":1},{"q":"Prefisso variabili di processo:","opts":["var!","local!","pv!","ac!"],"ans":2},{"q":"SAIL significa:","opts":["System App Interface","Self-Assembling Interface Layer","Scalable AI","Simple Appian Interface"],"ans":1},{"q":"XOR Gateway percorre:","opts":["Tutti i rami","Un solo ramo","Nessun ramo","Rami casuali"],"ans":1},{"q":"Permessi Appian assegnati a:","opts":["Singoli utenti","Gruppi","Ruoli sistema","Tutti"],"ans":1},{"q":"Rule Inputs prefisso:","opts":["pv!","local!","ri!","ac!"],"ans":2},{"q":"a!queryRecordType() serve a:","opts":["Creare record","Interrogare record con relazioni","Eliminare record","Aggiornare processi"],"ans":1},{"q":"Connected System centralizza:","opts":["Business logic","URL base e credenziali","Process Models","Interface SAIL"],"ans":1},{"q":"showWhen false fa cosa?","opts":["Rende grigio","Nasconde nel DOM","Rimuove dal DOM","Disabilita"],"ans":2},{"q":"RPA Appian basata su:","opts":["UiPath","Jidoka","Blue Prism","WorkFusion"],"ans":1},{"q":"Package serve per:","opts":["Backup DB","Deployment tra ambienti","Sicurezza","Monitoraggio"],"ans":1},{"q":"Layout top-level raccomandato:","opts":["a!columnLayout()","a!formLayout()","a!sideBySideLayout()","a!boxLayout()"],"ans":2},{"q":"Record Type da API esterne:","opts":["DB Table","Process Model","Web Service","File System"],"ans":2},{"q":"Expression Rules sono:","opts":["Processi BPMN","Funzioni riutilizzabili","Interfacce SAIL","Connettori DB"],"ans":1},{"q":"Permesso Initiator permette:","opts":["Solo leggere","Modificare oggetti","Avviare process models","Amministrare"],"ans":2},{"q":"Appian Designer e':","opts":["Desktop app","IDE locale","Web browser-based","Solo API"],"ans":2},{"q":"a!gridField() supporta:","opts":["Solo display","Paginazione ordinamento selezione","Solo paginazione","Solo selezione"],"ans":1},{"q":"Timer Boundary Event:","opts":["Blocca processo","Scatta dopo tempo definito","Invia push","Crea sub-process"],"ans":1},{"q":"a!refreshVariable() refreshOnVarChange:","opts":["Ad ogni click","Quando variabile specificata cambia","Ogni 5s","Al submit"],"ans":1},{"q":"Deploy Appian segue:","opts":["PROD a DEV","TEST a DEV a PROD","DEV a TEST a PROD","DEV a PROD"],"ans":2},{"q":"JOIN nelle relazioni Record:","opts":["Manuali","Automatici","Via stored proc","Non supportati"],"ans":1},{"q":"Appian Cloud usa:","opts":["Azure","GCP","AWS","IBM"],"ans":2},{"q":"Script Task esegue:","opts":["Form utente","Expression rule in background","Chiamata API","Robot RPA"],"ans":1},{"q":"Sicurezza livello record usa:","opts":["SQL WHERE manuale","pv!security","a!recordFilterList()","Solo group membership"],"ans":2},{"q":"OpenAPI Integration:","opts":["Crea DB","Importa spec Swagger","Disegna UI","Configura RPA"],"ans":1},{"q":"Constant in Appian e':","opts":["Variabile processo","Valore fisso per ambiente","Tipo record","Gateway"],"ans":1},{"q":"a!queryAggregation() calcola:","opts":["JOIN tabelle","COUNT SUM AVG MAX MIN aggregati","Validazioni","Routing processo"],"ans":1},{"q":"Control Room RPA gestisce:","opts":["Solo Process Models","Robot scheduling monitoraggio","Sicurezza gruppi","Interface SAIL"],"ans":1},{"q":"Default flow su XOR evita:","opts":["Errori validazione","Processi bloccati","Lentezza query","Log eccessivi"],"ans":1},{"q":"loggedInUser() restituisce:","opts":["Nome applicazione","Server hostname","Username utente loggato","Gruppo admin"],"ans":2},{"q":"SLA Appian Cloud:","opts":["99.0%","99.5%","99.9%","100%"],"ans":2},{"q":"AND Gateway esegue:","opts":["Un solo ramo","Tutti i rami contemporaneamente","Nessun ramo","Solo default"],"ans":1},{"q":"a!recordLink() apre:","opts":["Link esterno","Summary View del record","Modal","Altro processo"],"ans":1},{"q":"Permesso Deny:","opts":["Implicito default","Esplicito sovrascrive tutto","Non esiste","Equivale a Viewer"],"ans":1},{"q":"Robotic Task invoca:","opts":["Expression Rule","Robot RPA","Integration REST","Sub-Process"],"ans":1},{"q":"CDT sta per:","opts":["Custom Design Tool","Custom Data Type","Certified Data Template","Common Data Type"],"ans":1},{"q":"Process-backed records includono:","opts":["Tutte le istanze","Solo attive non archiviate","Archiviate comprese","Solo in errore"],"ans":1},{"q":"a!isPageWidth() serve a:","opts":["Performance","Layout responsive mobile desktop","Validare larghezza","Settare pagina"],"ans":1},{"q":"Sites Appian sono:","opts":["Portali web multi-pagina custom","Tipo di processo","Report automatici","Tipo record"],"ans":0},{"q":"Portals Appian:","opts":["Solo utenti Appian","Solo admin","Pubblicamente senza login","Solo API"],"ans":2},{"q":"Document Extraction usa:","opts":["Solo regex","OCR + Machine Learning","Solo template","Solo metadati"],"ans":1},{"q":"Flusso SDLC Appian:","opts":["PROD a TEST a DEV","DEV a TEST a PROD","TEST a PROD a DEV","QA a PROD a DEV"],"ans":1},{"q":"Compare and Deploy mostra:","opts":["Performance","Differenze oggetti tra ambienti","Confronto utenti","Log errori"],"ans":1},{"q":"a!gaugeField() e':","opts":["Grafico barre","KPI gauge circolare","Tabella","Scatter plot"],"ans":1},{"q":"Nested groups ereditano dal:","opts":["Figlio","Padre","Media dei due","Nessuno"],"ans":1},{"q":"Data Fabric connette sorgenti:","opts":["Replicando dati","Senza replicare dati","Solo DB locali","Solo REST"],"ans":1},{"q":"Best practice colori UI Appian:","opts":["Molti colori","Shades stesso colore","Palette piccola e coerente","Colori casuali"],"ans":2},{"q":"ac! in un task si riferisce a:","opts":["Variabili processo","Input task corrente","Variabili UI","Costanti"],"ans":1},{"q":"Write to Data Store Entity richiede Editor su:","opts":["Process Model","Data Store","Record Type","Integration"],"ans":1},{"q":"Tempo in Appian e':","opts":["Portale custom","Interfaccia standard Appian","Report avanzato","Tipo deployment"],"ans":1},{"q":"Process Mining analizza:","opts":["Codice sorgente","Log processi per ottimizzazione","Struttura DB","Interface SAIL"],"ans":1},{"q":"Error Boundary Event cattura:","opts":["Timeout task","Errori del task","Segnali esterni","Messaggi da altri proc"],"ans":1},{"q":"Expression Rule si chiama con:","opts":["call!ruleName()","rule!ruleName()","invoke!ruleName()","run!ruleName()"],"ans":1},{"q":"result.success false indica:","opts":["Chiamata riuscita","Chiamata fallita","Timeout","Token scaduto"],"ans":1},{"q":"CONTAINS in a!queryFilter():","opts":["Confronto esatto","Ricerca substring","Confronto maggiore","Valore nullo"],"ans":1},{"q":"Record Actions sono:","opts":["Filtri sulla lista","Azioni contestuali sul record","Tipi relazione","Tipi view"],"ans":1},{"q":"Unattended RPA significa:","opts":["Con utente presente","Robot autonomo su server","Semi-automatico","Cloud-only"],"ans":1},{"q":"OAuth 2.0 gestisce:","opts":["Solo username password","Token autenticazione API","Solo certificati","Solo API Key"],"ans":1},{"q":"Permesso solo lettura:","opts":["Administrator","Editor","Initiator","Viewer"],"ans":3},{"q":"a!queryLogicalExpression() combina filtri con:","opts":["Solo AND","Solo OR","AND oppure OR","XOR"],"ans":2},{"q":"CDT auto-generato da:","opts":["Process model","DB table","Site","Expression rule"],"ans":1},
+{"q":"a!stampLayout() è ideale per:","opts":["Griglia dati tabulare","KPI con icona e testo","Form di inserimento","Upload documenti"],"ans":1},
+{"q":"Related Actions di un Record Type si collegano a:","opts":["Solo Expression Rules","Process Models","Interface statiche","CDT"],"ans":1},
+{"q":"SOAP Integration utilizza:","opts":["JSON REST","WSDL XML","CSV flat file","GraphQL schema"],"ans":1},
+{"q":"ri! in una Interface SAIL è:","opts":["Modificabile con a!save()","Sola lettura (read-only)","Identico a local!","Scrivibile direttamente"],"ans":1},
+{"q":"Un Sub-Process in un Process Model è:","opts":["Un tipo di gateway","Un processo figlio annidato","Una variabile processo","Un Boundary Event"],"ans":1},
+{"q":"Exception Handler gestisce:","opts":["Solo timeout di rete","Errori non catchati da Boundary Events","Solo errori validazione","Solo errori DB"],"ans":1},
+{"q":"Portals NON permettono di:","opts":["Mostrare form pubblici","Accedere a dati interni Appian","Raccogliere richieste esterne","Ricevere dati"],"ans":1},
+{"q":"a!refreshVariable() con refreshInterval aggiorna:","opts":["Al submit del form","Ad ogni click utente","Ogni N secondi (polling)","Solo al caricamento"],"ans":2},
+{"q":"Generative AI in Appian si configura tramite:","opts":["Record Type AI","Connected System AI (OpenAI/Azure/Google)","Process Model","Expression Rule AI"],"ans":1},
+{"q":"User Filters 'Expression-based' permettono:","opts":["Solo valori fissi predefiniti","Logica dinamica con Constant e loggedInUser()","Solo filtri numerici","Solo filtri su date"],"ans":1},
+{"q":"L'operatore IS_NULL in a!queryFilter():","opts":["Match esatto sul valore","Controlla se il campo è nullo","Ricerca sottostringa","Range di valori"],"ans":1},
+{"q":"Smart Service 'Reassign Task' serve a:","opts":["Creare nuovo task ad-hoc","Riassegnare task esistente","Eliminare task","Clonare task"],"ans":1},
+{"q":"Attended RPA richiede:","opts":["Server dedicato 24/7","Utente presente al PC","API pubblica","Solo connessione cloud"],"ans":1},
+{"q":"a!dynamicLink() esegue:","opts":["Apertura URL esterno in nuova tab","Azione custom (aggiorna variabile, apre modal)","Solo navigazione record","Solo apertura email"],"ans":1},
+{"q":"I permessi in Appian si assegnano preferibilmente a:","opts":["Singoli utenti","Folder dell'applicazione","Singoli oggetti","Database tables"],"ans":1},
+{"q":"a!sectionLayout() permette di creare:","opts":["Visualizzazioni grafici","Sezioni collassabili nei form","Gestione upload file","Relazioni tra record"],"ans":1},
+{"q":"Il nodo 'Robotic Task' nel Process Model:","opts":["Crea un sub-process","Invoca un robot RPA","Esegue un'expression rule","Apre un form utente"],"ans":1},
+{"q":"L'AI Skill 'Classification' in Appian categorizza:","opts":["Utenti in gruppi","Documenti in categorie predefinite","Record in tipi","Processi in stati"],"ans":1},
+{"q":"a!columnLayout() organizza contenuti:","opts":["In righe verticali","In colonne orizzontali con peso configurabile","In card separate","In sezioni collassabili"],"ans":1},
+{"q":"Il permesso 'Editor' in Appian permette di:","opts":["Solo avviare processi","Visualizzare e modificare oggetti","Solo leggere i dati","Amministrare l'applicazione"],"ans":1},
+{"q":"In Appian, le Application sono:","opts":["Singoli process model","Contenitori logici di oggetti correlati","Database separati","Tipi di record"],"ans":1},
+{"q":"a!isPageWidth() con valore 'NARROW' indica:","opts":["Desktop wide","Tablet medium","Schermo mobile stretto","Nessuna larghezza"],"ans":2},
+{"q":"Il nodo 'Service Task' nel processo chiama:","opts":["Form utente","Integration o Smart Service","Expression rule locale","Robot RPA sempre"],"ans":1},
+{"q":"Quale formato usa OpenAPI per la specifica?","opts":["XML WSDL","JSON/YAML Swagger","CSV","Proprietario Appian"],"ans":1},
+{"q":"a!boxLayout() crea:","opts":["Card cliccabile elevata","Contenitore con bordo visibile","Sezioni collassabili","Layout a griglia"],"ans":1},
+{"q":"Appian Designer sezione 'Monitor' mostra:","opts":["Oggetti in sviluppo","Processi in esecuzione e debug","Configurazione deploy","Gestione utenti"],"ans":1},
+{"q":"La soglia di superamento dell'esame ACD100 reale è:","opts":["50%","62%","70%","80%"],"ans":1},
+{"q":"a!pagingInfo() configura:","opts":["Sicurezza accesso","Paginazione e ordinamento risultati","Validazione form","Connessione DB"],"ans":1},
+{"q":"Record-level security via a!recordFilterList() si applica:","opts":["Prima della source security","Dopo la source security","Indipendentemente","Solo per admin"],"ans":1}],"ACHS":[{"id":"f","icon":"🎯","name":"PRIMA LEZIONE","desc":"Completa la prima lezione","fn":"s.ls.length>=1"},{"id":"c1","icon":"🏗️","name":"FONDAMENTA","desc":"Capitolo 1 completato","fn":"s.ch.includes(1)"},{"id":"c3","icon":"🎨","name":"DESIGNER","desc":"Capitolo 3 completato","fn":"s.ch.includes(3)"},{"id":"pq","icon":"💎","name":"PERFETTO","desc":"Quiz lezione 100%","fn":"s.pq>=1"},{"id":"s3","icon":"🔥","name":"STREAK 3","desc":"3 giorni consecutivi","fn":"s.streak>=3"},{"id":"s7","icon":"🌟","name":"STREAK 7","desc":"7 giorni consecutivi","fn":"s.streak>=7"},{"id":"x5","icon":"⚡","name":"500 XP","desc":"Raggiungi 500 XP","fn":"s.xp>=500"},{"id":"x10","icon":"🚀","name":"1000 XP","desc":"Raggiungi 1000 XP","fn":"s.xp>=1000"},{"id":"h","icon":"📚","name":"A META","desc":"12+ lezioni completate","fn":"s.ls.length>=12"},{"id":"al","icon":"🎓","name":"STUDIOSO","desc":"Tutte le 20 lezioni","fn":"s.ls.length>=20"},{"id":"e1","icon":"📝","name":"ESAMINANDO","desc":"Prima simulazione","fn":"s.ea>=1"},{"id":"ep","icon":"🏆","name":"CERTIFICATO","desc":"Simulazione superata 62%","fn":"s.ep"},{"id":"ac","icon":"🌐","name":"MASTER","desc":"Tutti gli 8 capitoli","fn":"s.ch.length>=8"}]};
+const CONTENT = _D.CONTENT;
+const CH = _D.CHAPTERS;
+const EXAM = _D.EXAM;
+const ACHS_DEF = _D.ACHS;
+
+// STATE
+const SK='apc_v8';
+function loadS(){try{const d=localStorage.getItem(SK);if(d)return JSON.parse(d);}catch(e){}
+  return{xp:0,streak:0,lastActive:null,ls:[],ch:[],earned:[],pq:0,ea:0,ep:false,gd:null,gDone:false,notif:false};}
+let S=loadS();
+function saveS(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
+(function(){
+  const today=new Date().toDateString();
+  const yest=new Date(Date.now()-86400000).toDateString();
+  if(S.lastActive===today)return;
+  if(S.lastActive===yest)S.streak++;else S.streak=S.lastActive?0:1;
+  S.lastActive=today;S.gDone=(S.gd===today);saveS();
+})();
+function addXP(n){S.xp+=n;upP();saveS();}
+function upP(){
+  document.getElementById('xp').textContent=S.xp+' XP';
+  document.getElementById('sp').textContent='🔥'+S.streak;
+}
+upP();
+function totL(){return CH.reduce((a,c)=>a+c.lessons.length,0);}
+function prg(){return Math.round(S.ls.length/totL()*100);}
+function chU(i){if(i===0)return true;return CH[i-1].lessons.every(l=>S.ls.includes(l.id));}
+function lU(ch,i){if(i===0)return true;return S.ls.includes(ch.lessons[i-1].id);}
+
+// TOAST
+function toast(icon,msg,col){
+  const c=document.getElementById('tc');
+  const t=document.createElement('div');
+  t.className='toast';t.style.borderColor=col||'var(--accent)';
+  t.innerHTML='<span style="font-size:19px">'+icon+'</span><span style="color:var(--text2);font-size:12px">'+msg+'</span>';
+  c.prepend(t);
+  setTimeout(()=>{t.classList.add('hide');setTimeout(()=>t.remove(),300);},3200);
+}
+
+// ACHIEVEMENTS
+function chkACH(){
+  ACHS_DEF.forEach(function(a){
+    if(!S.earned.includes(a.id)&&evalFn(a.fn)){
+      S.earned.push(a.id);saveS();
+      setTimeout(function(){toast(a.icon,'Traguardo: '+a.name,'var(--accent)');},400);
+    }
+  });
+}
+function evalFn(fn){
+  try{return Function('s','return '+fn)(S);}catch(e){return false;}
+}
+
+// NOTIFICATIONS
+async function reqNotif(){
+  if(!('Notification'in window)){toast('❌','Non supportate');return;}
+  const p=await Notification.requestPermission();
+  if(p==='granted'){S.notif=true;saveS();toast('🔔','Reminder attivo alle 20:00','var(--green)');schedN();}
+  else toast('❌','Permesso negato');
+}
+function schedN(){
+  if(!S.notif)return;
+  const now=new Date(),t=new Date(now);
+  t.setHours(20,0,0,0);if(now>t)t.setDate(t.getDate()+1);
+  setTimeout(function(){
+    if(Notification.permission==='granted')
+      new Notification('⚡ Appian Dev Cert',{body:'Studia oggi! Il tuo streak ti aspetta 🔥'});
+    schedN();
+  },t-now);
+}
+if(S.notif)schedN();
+
+// NAV
+const TT={home:'Dev Cert',road:'Roadmap',learn:'Capitoli',ai:'AI Tutor',exam:'Simulazione'};
+function go(tab){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.cssText='';});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('s-'+tab).classList.add('active');
+  const btn=document.querySelector('[data-t="'+tab+'"]');
+  if(btn)btn.classList.add('on');
+  document.getElementById('hdr-t').textContent=TT[tab]||tab;
+  const fn={home:rHome,road:rRoad,learn:rLearn,ai:rAI,exam:rExam}[tab];
+  if(fn)fn();
+}
+
+// MODAL
+function oM(html){document.getElementById('mb').innerHTML=html;document.getElementById('mbg').classList.add('open');}
+function cM(){document.getElementById('mbg').classList.remove('open');}
+
+// HTML HELPER - safe element creation
+function el(tag,attrs,children){
+  const e=document.createElement(tag);
+  if(attrs)Object.keys(attrs).forEach(function(k){
+    if(k==='cls')e.className=attrs[k];
+    else if(k==='html')e.innerHTML=attrs[k];
+    else if(k==='text')e.textContent=attrs[k];
+    else if(k.startsWith('on'))e.addEventListener(k.slice(2),attrs[k]);
+    else e.setAttribute(k,attrs[k]);
+  });
+  if(children)children.forEach(function(c){if(c)e.appendChild(c);});
+  return e;
+}
+function div(cls,html){const d=document.createElement('div');d.className=cls||'';if(html)d.innerHTML=html;return d;}
+function btn(cls,text,onClick){const b=document.createElement('button');b.className='btn '+cls;b.textContent=text;b.onclick=onClick;return b;}
+
+// QUIZ ENGINE
+const QS={};
+function startQuiz(qs,cid,onDone,title){
+  QS[cid]={qs:qs,idx:0,sel:null,ok:false,score:0,onDone:onDone,title:title,done:false};
+  renderQ(cid);
+}
+function renderQ(cid){
+  const s=QS[cid];
+  if(!s)return;
+  const el=document.getElementById(cid);
+  if(!el)return;
+  if(s.done){renderQResult(cid);return;}
+  const q=s.qs[s.idx];
+  const K=['A','B','C','D'];
+  const pct=Math.round(s.idx/s.qs.length*100);
+  let optsHTML='';
+  q.opts.forEach(function(o,i){
+    let cls='qopt';
+    if(s.ok){if(i===q.ans)cls+=' correct';else if(i===s.sel)cls+=' wrong';}
+    else if(s.sel===i)cls+=' sel';
+    const dis=s.ok?' disabled':'';
+    optsHTML+='<button class="'+cls+'"'+dis+' onclick="qPick(\''+cid+'\','+i+')">'+'<span class="qkey">'+K[i]+'</span>'+o+'</button>';
+  });
+  el.innerHTML='<div class="fade">'
+    +'<div class="row-bet mb12"><span class="tag to">'+s.title+'</span>'
+    +'<span style="font-family:var(--mono);font-size:11px;color:var(--muted)">'+(s.idx+1)+'/'+s.qs.length+'</span></div>'
+    +'<div class="prog mb16"><div class="prog-f" style="width:'+pct+'%"></div></div>'
+    +'<p class="qtext">'+q.q+'</p>'
+    +optsHTML
+    +'<div id="'+cid+'_fb"></div></div>';
+}
+function qPick(cid,i){
+  const s=QS[cid];
+  if(!s||s.ok)return;
+  s.sel=i;s.ok=true;
+  if(i===s.qs[s.idx].ans)s.score++;
+  renderQ(cid);
+  const fb=document.getElementById(cid+'_fb');
+  if(fb){
+    const ok=i===s.qs[s.idx].ans;
+    fb.innerHTML='<div class="'+(ok?'alg':'alr')+' mt8 mb8">'
+      +(ok?'✅ Corretto!':'❌ Risposta: <strong>'+s.qs[s.idx].opts[s.qs[s.idx].ans]+'</strong>')+'</div>'
+      +'<button class="btn bp" onclick="qNext(\''+cid+'\')">'
+      +(s.idx<s.qs.length-1?'AVANTI →':'FINE QUIZ ✓')+'</button>';
+  }
+}
+function qNext(cid){
+  const s=QS[cid];
+  if(!s)return;
+  if(s.idx<s.qs.length-1){s.idx++;s.sel=null;s.ok=false;renderQ(cid);}
+  else{
+    s.done=true;
+    if(s.score===s.qs.length)S.pq++;
+    saveS();chkACH();renderQResult(cid);
+    if(s.onDone)s.onDone(s.score,s.qs.length);
+  }
+}
+function renderQResult(cid){
+  const s=QS[cid];
+  const el=document.getElementById(cid);
+  if(!el||!s)return;
+  const pct=Math.round(s.score/s.qs.length*100);
+  const pass=pct>=67;
+  el.innerHTML='<div class="fade tc">'
+    +'<div style="font-size:50px;margin-bottom:10px">'+(pass?'🎉':'💪')+'</div>'
+    +'<div class="h2 mb8">'+(pass?'Ottimo!':'Riprova!')+'</div>'
+    +'<div class="big-score" style="color:'+(pass?'var(--green)':'var(--red)')+'">'+pct+'%</div>'
+    +'<div class="cm f13 mb16">'+s.score+'/'+s.qs.length+' corrette · soglia 67%</div>'
+    +'<div class="'+(pass?'alg':'alr')+' mb16">'
+    +(pass?'✅ Superato!':'❌ Rileggi il contenuto e riprova.')+'</div>'
+    +'<button class="btn bs" onclick="startQuiz(QS[\''+cid+'\'].qs,\''+cid+'\',QS[\''+cid+'\'].onDone,QS[\''+cid+'\'].title)">🔄 RIPROVA</button></div>';
+}
+
+// DOWNLOAD
+function dlMap(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  const lines=['=== APPIAN DEV CERT — MAPPA CONCETTUALE ===','',
+    'CAPITOLO '+ch.id+': '+ch.title,'='.repeat(40),'',
+    'CONCETTO CENTRALE: '+ch.map.c,'','NODI COLLEGATI:'];
+  ch.map.n.forEach(function(n,i){lines.push('  '+(i+1)+'. '+n);});
+  lines.push('','RIASSUNTO:','  '+ch.summary,'','DOCS: '+ch.docs,'',
+    '--- Appian Dev Cert App '+new Date().toLocaleDateString('it-IT')+' ---');
+  dlFile(lines.join('\n'),'mappa_cap'+ch.id+'.txt');
+  toast('⬇️','Mappa scaricata!','var(--blue)');
+}
+function dlSum(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  const lines=['=== APPIAN DEV CERT — RIASSUNTO ===','',
+    ch.emoji+' CAPITOLO '+ch.id+': '+ch.title,'='.repeat(40),'',
+    'RIASSUNTO:','  '+ch.summary,'','LEZIONI:'];
+  ch.lessons.forEach(function(l,i){lines.push('  '+(i+1)+'. ['+l.dur+'] '+l.title);});
+  lines.push('','MAPPA: '+ch.map.c);
+  ch.map.n.forEach(function(n){lines.push('  -> '+n);});
+  lines.push('','DOCS: '+ch.docs,'',
+    '--- Appian Dev Cert App '+new Date().toLocaleDateString('it-IT')+' ---');
+  dlFile(lines.join('\n'),'riassunto_cap'+ch.id+'.txt');
+  toast('⬇️','Riassunto scaricato!','var(--green)');
+}
+function dlFile(content,name){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));
+  a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);
+}
+
+// HOME
+function rHome(){
+  const sc=document.getElementById('s-home');
+  const today=new Date().toDateString();
+  if(S.gd!==today)S.gDone=false;
+  const nch=CH.find(function(c,i){return chU(i)&&!S.ch.includes(c.id);});
+  let h='<div class="fade">';
+
+  // Hero card
+  h+='<div class="card ca" style="background:linear-gradient(135deg,rgba(249,115,22,.1),rgba(251,146,60,.04))">'
+    +'<div class="row-bet mb8"><div><div class="h2 mb4">Ciao, Developer! 👋</div>'
+    +'<p class="f13 cm">ACD100 — Appian Certified Associate Developer</p></div>'
+    +'<span style="font-size:34px">⚡</span></div>'
+    +'<div class="divx"></div>'
+    +'<div class="prog mb6"><div class="prog-f" style="width:'+prg()+'%"></div></div>'
+    +'<div class="row-bet"><span class="f12 cm">'+prg()+'% completato</span>'
+    +'<span class="tag to">'+S.ls.length+'/'+totL()+' lezioni</span></div></div>';
+
+  // Stats
+  h+='<div class="sg">'
+    +'<div class="sb"><div class="sn" style="color:var(--red)">🔥'+S.streak+'</div><div class="sl">STREAK</div></div>'
+    +'<div class="sb"><div class="sn">'+S.xp+'</div><div class="sl">XP TOTALI</div></div>'
+    +'<div class="sb"><div class="sn" style="color:var(--green)">'+S.ch.length+'</div><div class="sl">CAPITOLI</div></div>'
+    +'<div class="sb"><div class="sn" style="color:var(--purple)">'+S.earned.length+'</div><div class="sl">TRAGUARDI</div></div></div>';
+
+  // Daily goal
+  const goalDone=S.gDone;
+  h+='<div class="card '+(goalDone?'cg':'ca')+' tap" onclick="if(!'+goalDone+')go(\'learn\')">'
+    +'<div class="row-bet"><div>'
+    +'<div class="stit" style="color:'+(goalDone?'var(--green)':'var(--accent)')+'">'+( goalDone?'✅ OBIETTIVO RAGGIUNTO':'🎯 OBIETTIVO GIORNALIERO')+'</div>'
+    +'<div class="f14 mt4">'+(goalDone?'Ottimo! Torna domani 🎉':'Completa 1 lezione oggi')+'</div>'
+    +'<p class="f12 cm mt4">'+(goalDone?'Streak mantenuto!':'Mantieni il tuo streak!')+'</p></div>'
+    +'<div style="font-size:30px">'+(goalDone?'🏅':'📖')+'</div></div></div>';
+
+  // Continue
+  if(nch){
+    const ld=nch.lessons.filter(function(l){return S.ls.includes(l.id);}).length;
+    h+='<div class="stit">CONTINUA DA QUI</div>'
+      +'<div class="card ca tap" onclick="go(\'learn\');setTimeout(function(){oCh('+nch.id+');},60)">'
+      +'<div class="row mb10"><div style="font-size:32px">'+nch.emoji+'</div>'
+      +'<div style="flex:1"><div style="font-weight:600;font-size:15px">'+nch.title+'</div>'
+      +'<span class="tag to" style="margin-top:4px">'+nch.tag+'</span></div>'
+      +'<span style="color:var(--accent);font-size:22px">→</span></div>'
+      +'<div class="prog"><div class="prog-f" style="width:'+Math.round(ld/nch.lessons.length*100)+'%"></div></div>'
+      +'<div class="f12 cm mt4">'+ld+'/'+nch.lessons.length+' lezioni · +'+nch.xp+' XP</div></div>';
+  } else {
+    h+='<div class="alg">🎓 Tutte le lezioni completate! Fai la simulazione esame.</div>';
+  }
+
+  // Achievements
+  h+='<div class="stit">TRAGUARDI</div>'
+    +'<div class="card tap" onclick="oM(achM())">'
+    +'<div class="row-bet mb12"><span class="h3">Obiettivi</span><span class="tag tp">'+S.earned.length+'/'+ACHS_DEF.length+'</span></div>'
+    +'<div class="ach-grid">'
+    +ACHS_DEF.slice(0,6).map(function(a){
+      return '<div class="ach-item '+(S.earned.includes(a.id)?'earned':'')+'">'
+        +'<div class="ach-icon">'+a.icon+'</div>'
+        +'<div class="ach-name">'+a.name+'</div></div>';
+    }).join('')+'</div>'
+    +'<div class="cm f12 tc mt12">Tocca per vedere tutti →</div></div>';
+
+  // Reminder
+  h+='<div class="card cb"><div class="row-bet">'
+    +'<div><div class="h3 mb4">🔔 Reminder</div>'
+    +'<p class="f12 cm">'+(S.notif?'✅ Attivo alle 20:00':'Attiva per non perdere il streak')+'</p></div>'
+    +'<button class="btn '+(S.notif?'bs':'bb')+' bsm" onclick="reqNotif()">'+(S.notif?'ON ✓':'ATTIVA')+'</button>'
+    +'</div></div>';
+
+  // Exam CTA
+  h+='<div class="card tap" style="background:linear-gradient(135deg,#0f172a,#1a1a2e);border-color:rgba(249,115,22,.4);text-align:center" onclick="go(\'exam\')">'
+    +'<div style="font-size:38px;margin-bottom:8px">🎯</div>'
+    +'<div class="h3 mb4">Simulazione ACD100</div>'
+    +'<p class="f12 cm mb12">60 domande · 60 min · soglia 62%</p>'
+    +'<span class="tag to">INIZIA ORA</span></div>';
+
+  h+='</div>';
+  sc.innerHTML=h;
+}
+
+function achM(){
+  return '<div class="h2 mb4">🏆 Traguardi</div><p class="f13 cm mb16">'+S.earned.length+'/'+ACHS_DEF.length+' sbloccati</p>'
+    +'<div class="ach-grid">'
+    +ACHS_DEF.map(function(a){
+      return '<div class="ach-item '+(S.earned.includes(a.id)?'earned':'')+'">'
+        +'<div class="ach-icon">'+a.icon+'</div>'
+        +'<div class="ach-name">'+a.name+'</div>'
+        +'<div style="font-size:9px;color:var(--muted);margin-top:3px">'+a.desc+'</div></div>';
+    }).join('')+'</div>'
+    +'<button class="btn bs" style="margin-top:16px" onclick="cM()">CHIUDI</button>';
+}
+
+// ROADMAP
+function rRoad(){
+  const sc=document.getElementById('s-road');
+  let h='<div class="fade"><div class="h1 mb4">Roadmap</div><p class="cm f13 mb20">Percorso completo certificazione ACD100</p>';
+  CH.forEach(function(ch,i){
+    const done=S.ch.includes(ch.id);
+    const un=chU(i);
+    const active=un&&!done;
+    const ld=ch.lessons.filter(function(l){return S.ls.includes(l.id);}).length;
+    const dotCls='rm-dot '+(done?'done':active?'active':'locked');
+    h+='<div class="row" style="align-items:stretch;gap:14px;margin-bottom:4px">'
+      +'<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">'
+      +'<div class="'+dotCls+'">'+(done?'✓':ch.id)+'</div>'
+      +(i<CH.length-1?'<div class="rmd '+(done?'done':'')+'" style="flex:1;min-height:50px"></div>':'')
+      +'</div>'
+      +'<div class="card '+(done?'cg':active?'ca':'')+' tap" style="flex:1;opacity:'+(un?1:.5)+';margin-bottom:4px"'
+      +' onclick="if('+un+'){go(\'learn\');setTimeout(function(){oCh('+ch.id+');},60)}">'
+      +'<div class="row-bet mb8"><span style="font-size:22px">'+ch.emoji+'</span>'
+      +'<span class="tag '+(done?'tg':active?'to':'tm')+'">'+(done?'PASS':active?'IN CORSO':'BLOCCATO')+'</span></div>'
+      +'<div style="font-weight:600;margin-bottom:4px">'+ch.title+'</div>'
+      +'<div class="f12 cm mb8">'+ch.lessons.length+' lezioni · +'+ch.xp+' XP</div>'
+      +'<div class="prog"><div class="prog-f" style="width:'+Math.round(ld/ch.lessons.length*100)+'%"></div></div>'
+      +'<div class="f12 cm mt4">'+ld+'/'+ch.lessons.length+'</div>'
+      +'</div></div>';
+  });
+  h+='<div class="row" style="gap:14px">'
+    +'<div class="rm-dot" style="background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent);color:#000;font-size:16px;flex-shrink:0">🎯</div>'
+    +'<div class="card ca tap" style="flex:1" onclick="go(\'exam\')">'
+    +'<div class="h3 mb4">Simulazione Esame ACD100</div>'
+    +'<p class="f12 cm">60 domande · 60 min · soglia 62%</p></div></div>';
+  h+='</div>';
+  sc.innerHTML=h;
+}
+
+// LEARN
+function rLearn(){
+  const sc=document.getElementById('s-learn');
+  let h='<div class="fade"><div class="h1 mb4">Capitoli</div><p class="cm f13 mb16">8 capitoli · 20 lezioni · syllabus ACD100</p>';
+  CH.forEach(function(ch,i){
+    const done=S.ch.includes(ch.id);
+    const un=chU(i);
+    const ld=ch.lessons.filter(function(l){return S.ls.includes(l.id);}).length;
+    h+='<div class="card '+(done?'cg':un?'ca':'')+' tap" style="opacity:'+(un?1:.55)+';margin-bottom:4px"'
+      +' onclick="if('+un+')oCh('+ch.id+')">'
+      +'<div class="row mb8"><div style="font-size:34px">'+ch.emoji+'</div>'
+      +'<div style="flex:1">'
+      +'<div style="font-weight:600;font-size:15px;margin-bottom:4px">'+ch.title+'</div>'
+      +'<div class="row" style="gap:6px">'
+      +'<span class="tag '+(done?'tg':un?'to':'tm')+'">'+(done?'✓ PASS':un?ch.tag:'🔒')+'</span>'
+      +'<span class="tag tb">+'+ch.xp+' XP</span></div></div></div>'
+      +'<div class="prog mb4"><div class="prog-f" style="width:'+Math.round(ld/ch.lessons.length*100)+'%"></div></div>'
+      +'<div class="f12 cm">'+ld+'/'+ch.lessons.length+' lezioni</div></div>';
+  });
+  sc.innerHTML=h+'</div>';
+}
+
+// CHAPTER
+function oCh(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  const allDone=ch.lessons.every(function(l){return S.ls.includes(l.id);});
+  const ld=ch.lessons.filter(function(l){return S.ls.includes(l.id);}).length;
+  let h='<div class="fade">'
+    +'<button class="btn bs bsm" style="margin-bottom:16px" onclick="rLearn()">← Capitoli</button>'
+    +'<div class="card ca tc">'
+    +'<div style="font-size:46px;margin-bottom:8px">'+ch.emoji+'</div>'
+    +'<div class="h2 mb4">'+ch.title+'</div>'
+    +'<span class="tag to">'+ch.tag+'</span>'
+    +'<div class="prog" style="margin-top:12px;margin-bottom:4px"><div class="prog-f" style="width:'+Math.round(ld/ch.lessons.length*100)+'%"></div></div>'
+    +'<div class="f12 cm">'+ld+'/'+ch.lessons.length+' lezioni · '+ch.xp+' XP</div></div>'
+    +'<div class="row" style="gap:8px;flex-wrap:wrap">'
+    +'<button class="btn bo" style="font-size:10px;flex:1;min-width:60px" onclick="oMapM('+chId+')">🗺️ Mappa</button>'
+    +'<button class="btn bs" style="font-size:10px;flex:1;min-width:60px" onclick="oFlash('+chId+')">⚡ Flash</button>'
+    +'<button class="btn '+(allDone?'bg':'bs')+'" style="font-size:10px;flex:1;min-width:60px" onclick="'+(allDone?'oChQ('+chId+')':'toast(\'🔒\',\'Completa prima tutte le lezioni\')') +'">'+( allDone?'📝 Test':'🔒 Test')+'</button>'
+    +'<a href="'+ch.docs+'" target="_blank" class="btn bb" style="font-size:10px;flex:1;min-width:60px">📖 Docs</a></div>'
+    +'<div class="stit">LEZIONI</div>';
+
+  ch.lessons.forEach(function(ls,i){
+    const done=S.ls.includes(ls.id);
+    const un=lU(ch,i);
+    h+='<div class="card '+(done?'cg':'')+' tap" style="opacity:'+(un?1:.5)+'" onclick="if('+un+')oLs('+chId+',\''+ls.id+'\')"><div class="row-bet">'
+      +'<div><div class="f12 cm mb4" style="font-family:var(--mono)">'+ls.id+'</div>'
+      +'<div style="font-weight:600;font-size:14px;margin-bottom:4px">'+ls.title+'</div>'
+      +'<div class="row" style="gap:8px"><span class="tag tm">'+ls.dur+'</span>'+(done?'<span class="tag tg">✓</span>':'')+'</div></div>'
+      +'<div style="font-size:20px;color:'+(done?'var(--green)':un?'var(--accent)':'var(--muted)')+'">'+(done?'✓':un?'→':'🔒')+'</div>'
+      +'</div></div>';
+  });
+
+  h+='<div class="card cb">'
+    +'<div class="stit mb8" style="color:var(--blue)">📄 RIASSUNTO</div>'
+    +'<p class="f13" style="color:var(--text2);line-height:1.7">'+ch.summary+'</p>'
+    +'<div class="row" style="gap:8px;margin-top:12px">'
+    +'<button class="btn bo" style="font-size:10px" onclick="dlSum('+chId+')">⬇️ Riassunto</button>'
+    +'<button class="btn bs" style="font-size:10px" onclick="dlMap('+chId+')">⬇️ Mappa</button>'
+    +'</div></div></div>';
+
+  document.getElementById('s-learn').innerHTML=h;
+}
+
+function oMapM(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  const cols=[['var(--accent)','rgba(249,115,22,.12)'],['var(--blue)','rgba(59,130,246,.12)'],
+              ['var(--green)','rgba(34,197,94,.12)'],['var(--purple)','rgba(168,85,247,.12)']];
+  const nodesHTML=ch.map.n.map(function(n,i){
+    const col=cols[i%4];
+    return '<div style="border-radius:8px;padding:9px;font-family:var(--mono);font-size:10px;text-align:center;border:1px solid '+col[0]+';color:'+col[0]+';background:'+col[1]+'">'+n+'</div>';
+  }).join('');
+  oM('<div class="h2 mb4">🗺️ Mappa: '+ch.title+'</div>'
+    +'<div style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;font-family:var(--mono);font-size:12px;font-weight:700;border-radius:14px;padding:14px;text-align:center;margin-bottom:14px">'+ch.map.c+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'+nodesHTML+'</div>'
+    +'<div class="alb mb12">'+ch.summary.substring(0,200)+'...</div>'
+    +'<div class="row mb12">'
+    +'<button class="btn bo" onclick="dlMap('+chId+');cM()">⬇️ Scarica Mappa</button>'
+    +'<button class="btn bg" onclick="dlSum('+chId+');cM()">⬇️ Scarica Riassunto</button></div>'
+    +'<a href="'+ch.docs+'" target="_blank" style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);margin-bottom:10px">'
+    +'<span style="font-size:18px">📘</span>'
+    +'<div><div class="f12" style="font-weight:600">Appian Docs</div><div class="f12 cm">docs.appian.com</div></div>'
+    +'<span style="color:var(--blue);margin-left:auto">↗</span></a>'
+    +'<button class="btn bs mt12" onclick="cM()">CHIUDI</button>');
+}
+
+function oChQ(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  document.getElementById('s-learn').innerHTML='<div class="fade">'
+    +'<button class="btn bs bsm" style="margin-bottom:16px" onclick="oCh('+chId+')">← '+ch.emoji+' '+ch.title+'</button>'
+    +'<div class="h2 mb4">Test Capitolo</div>'
+    +'<p class="cm f13 mb16">Soglia 70% · '+ch.cQuiz.length+' domande</p>'
+    +'<div id="cq'+chId+'"></div></div>';
+  startQuiz(ch.cQuiz,'cq'+chId,function(score,total){
+    if(score/total>=0.7&&!S.ch.includes(chId)){
+      S.ch.push(chId);addXP(ch.xp);
+      toast('🏆','Capitolo superato! +'+ch.xp+' XP','var(--green)');chkACH();
+    }
+  },'Test Capitolo');
+}
+
+// LESSON
+function oLs(chId,lsId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  const ls=ch.lessons.find(function(l){return l.id===lsId;});
+  const qid='lq'+lsId.replace('.','');
+  const content=CONTENT[lsId]||'<p>Contenuto non disponibile.</p>';
+  document.getElementById('s-learn').innerHTML='<div class="fade">'
+    +'<div class="row-bet mb16">'
+    +'<button class="btn bs bsm" onclick="oCh('+chId+')">← '+ch.emoji+'</button>'
+    +'<span class="tag tm" style="font-family:var(--mono)">'+ls.id+'</span>'
+    +'<span class="tag to">+30 XP</span></div>'
+    +'<div class="row mb12"><span class="tag to">'+ch.tag+'</span><span class="tag tm">'+ls.dur+'</span></div>'
+    +'<div class="h2 mb16">'+ls.title+'</div>'
+    +'<div class="lb mb16">'+content+'</div>'
+    +'<a href="'+ls.docs+'" target="_blank" style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-decoration:none;color:var(--text);margin-bottom:10px;transition:border-color .2s">'
+    +'<span style="font-size:18px">📘</span>'
+    +'<div><div class="f12" style="font-weight:600">Approfondisci su Appian Docs</div><div class="f12 cm">docs.appian.com</div></div>'
+    +'<span style="color:var(--blue);margin-left:auto">↗</span></a>'
+    +'<div class="card cp tap mb16" onclick="go(\'ai\')">'
+    +'<div class="row"><span style="font-size:24px">🤖</span>'
+    +'<div><div class="f13" style="font-weight:600">Chiedi all\'AI Tutor</div>'
+    +'<div class="f12 cm">Dubbi su questo argomento?</div></div>'
+    +'<span style="color:var(--purple);margin-left:auto">→</span></div></div>'
+    +'<div class="h3 mb12">📝 Quiz ('+ls.quiz.length+' domande)</div>'
+    +'<div id="'+qid+'"></div></div>';
+
+  startQuiz(ls.quiz,qid,function(score,total){
+    if(score/total>=0.67&&!S.ls.includes(ls.id)){
+      S.ls.push(ls.id);addXP(30);
+      const today=new Date().toDateString();
+      if(!S.gDone){S.gDone=true;S.gd=today;}
+      saveS();chkACH();
+      toast('⭐','Lezione completata! +30 XP','var(--accent)');
+      const ni=ch.lessons.findIndex(function(l){return l.id===ls.id;})+1;
+      if(ni<ch.lessons.length)setTimeout(function(){toast('➡️','Prossima lezione sbloccata!','var(--blue)');},1600);
+      else setTimeout(function(){toast('🏅','Tutte le lezioni del capitolo!','var(--green)');},1600);
+    }
+  },'Lezione '+ls.id);
+}
+
+// AI TUTOR — Knowledge Base locale + opzionale Anthropic API
+let aiMs=[];
+let AI_KEY=localStorage.getItem('apc_aikey')||'';
+
+// Knowledge Base indicizzata sul CONTENT esistente
+const KB_IDX=[
+  {keys:['pv!','variabile processo','process variable','stati processo','active completed'],ids:['2.1','2.2']},
+  {keys:['local!','variabile locale','local variable','a!save'],ids:['3.1','3.2']},
+  {keys:['ri!','rule input','rule inputs'],ids:['3.1']},
+  {keys:['gateway','xor','and gateway','or gateway','default flow'],ids:['2.2']},
+  {keys:['boundary','timer boundary','error boundary','escalation','interrupting'],ids:['2.3']},
+  {keys:['sail','self-assembling','layout','a!form','a!sidebyside','a!section','a!column','a!box','a!card','a!stamp'],ids:['3.1','3.2']},
+  {keys:['grid','a!grid','tabella','paginazione','a!paginginfo','selezione righe'],ids:['3.3']},
+  {keys:['showwhen','show when','dom','validazion','a!refreshvariable','refresh','responsive','a!ispagewidth'],ids:['3.2']},
+  {keys:['record type','record','sorgente dati','list view','summary view','related action'],ids:['4.1']},
+  {keys:['cdt','custom data type','tipo dato','a!queryrecordtype','a!queryfilter','a!querylogical','relazion','one-to-many','foreign key'],ids:['4.2','4.3']},
+  {keys:['integration','integrazione','api','rest','connected system','soap','openapi','swagger','wsdl','database integration'],ids:['5.1','5.2']},
+  {keys:['result.success','result.body','oauth','autenticazion','basic auth','api key','ssl','tls'],ids:['5.2','6.2']},
+  {keys:['security','sicurezza','permess','gruppo','deny','initiator','viewer','editor','administrator','nested group'],ids:['6.1','6.2']},
+  {keys:['site','sito','portal','tempo','pagina','record list page','action page'],ids:['7.1']},
+  {keys:['chart','grafico','report','dashboard','gauge','a!bar','a!line','a!pie','a!gauge','aggregation','count','sum','avg'],ids:['7.2']},
+  {keys:['ai','document extraction','classification','generative','llm','ocr','human-in-the-loop','human in the loop'],ids:['8.1']},
+  {keys:['rpa','robot','jidoka','attended','unattended','control room','robotic task','process mining','data fabric'],ids:['8.2']},
+  {keys:['deploy','sdlc','ambiente','package','compare and deploy','dev test prod'],ids:['1.3']},
+  {keys:['designer','oggetti','prefissi','low-code','appian cloud','aws','sla','bpm'],ids:['1.1','1.2']},
+];
+
+function kbTextOf(ids){
+  return ids.map(function(id){return (CONTENT[id]||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();}).join(' ');
+}
+
+function localAIReply(question){
+  const q=question.toLowerCase();
+  let best=null,bestScore=0;
+  KB_IDX.forEach(function(t){
+    let score=0;
+    t.keys.forEach(function(k){if(q.includes(k.toLowerCase()))score+=k.length;});
+    if(score>bestScore){bestScore=score;best=t;}
+  });
+  if(!best||bestScore<2){
+    return '💡 Non ho trovato una corrispondenza specifica. Prova a chiedere di:\n\n• **Variabili**: pv! vs local! vs ri!\n• **Gateway**: XOR, AND, OR, Boundary Events\n• **SAIL**: layout, showWhen, a!refreshVariable()\n• **Record Types**: CDT, query, relazioni, security\n• **Integrations**: Connected System, REST/SOAP/OpenAPI\n• **Security**: gruppi, permessi, Deny, nested groups\n• **Sites/Portals**: Tempo vs Sites, chart, a!gaugeField()\n• **AI/RPA**: Document Extraction, Classification, Jidoka\n• **Deploy**: SDLC, package, Compare and Deploy';
+  }
+  const text=kbTextOf(best.ids);
+  const snippet=text.length>600?text.substring(0,600)+'...':text;
+  const chNums=[...new Set(best.ids.map(function(id){return parseInt(id.split('.')[0]);}))];
+  const chLabels=chNums.map(function(n){const c=CH.find(function(x){return x.id===n;});return c?c.emoji+' '+c.title:'';}).filter(Boolean).join(' · ');
+  return '📚 **'+chLabels+'**\n\n'+snippet+'\n\n💡 Approfondisci in: Lezioni '+best.ids.join(', ')+' → scheda LEARN';
+}
+
+function rAI(){
+  const sc=document.getElementById('s-ai');
+  sc.style.cssText='flex:1;overflow:hidden;display:flex;flex-direction:column;padding:0;gap:0;padding-bottom:60px';
+  const keyBtn=AI_KEY
+    ?'<button onclick="clearAIKey()" style="background:rgba(34,197,94,.15);border:1px solid var(--green);border-radius:8px;padding:5px 9px;color:var(--green);font-family:var(--mono);font-size:8px;cursor:pointer;white-space:nowrap">✓ AI LIVE</button>'
+    :'<button onclick="setAIKey()" style="background:rgba(249,115,22,.1);border:1px solid var(--accent);border-radius:8px;padding:5px 9px;color:var(--accent);font-family:var(--mono);font-size:8px;cursor:pointer;white-space:nowrap">+ API KEY</button>';
+  sc.innerHTML='<div style="background:var(--bg3);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0">'
+    +'<button onclick="go(\'home\')" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-family:var(--mono);font-size:10px;cursor:pointer">←</button>'
+    +'<span style="font-family:var(--syne);font-size:14px;font-weight:700;flex:1">🤖 AI Tutor ACD100</span>'
+    +keyBtn
+    +'<button onclick="aiMs=[];renderAIC()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:5px 9px;color:var(--muted);font-family:var(--mono);font-size:9px;cursor:pointer">↺</button></div>'
+    +'<div id="aic" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px"></div>'
+    +'<div style="background:var(--bg2);border-top:1px solid var(--border);padding:10px 14px;display:flex;gap:8px;flex-shrink:0">'
+    +'<input class="ai-inp" id="ai-inp" placeholder="Chiedimi qualcosa su ACD100..."/>'
+    +'<button class="ai-send" onclick="sAI()">➤</button></div>';
+  document.getElementById('ai-inp').addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sAI();}
+  });
+  renderAIC();
+}
+
+function setAIKey(){
+  const k=prompt('Incolla la tua Anthropic API Key (sk-ant-...):\n\nSenza chiave l\'AI Tutor usa la knowledge base locale.');
+  if(k&&k.trim().startsWith('sk-ant-')){
+    AI_KEY=k.trim();localStorage.setItem('apc_aikey',AI_KEY);
+    toast('🤖','AI Live attivata! Risposte potenziate.','var(--purple)');rAI();
+  } else if(k){
+    toast('❌','Chiave non valida. Usa la KB locale.','var(--red)');
+  }
+}
+function clearAIKey(){
+  AI_KEY='';localStorage.removeItem('apc_aikey');
+  toast('📚','Tornato a Knowledge Base locale','var(--blue)');rAI();
+}
+
+function renderAIC(){
+  const el=document.getElementById('aic');
+  if(!el)return;
+  if(aiMs.length===0){
+    const qs=['Spiega pv! vs local! vs ri!','Come funziona Gateway XOR?','Cosa sono i CDT e come si usano?','Differenza Sites vs Tempo vs Portals','Come funziona la sicurezza record?','Spiega showWhen e i suoi effetti','Differenza Attended vs Unattended RPA','Come si gestiscono errori con Boundary Events?'];
+    el.innerHTML='<div class="tc" style="padding:24px 16px;color:var(--muted)">'
+      +'<div style="font-size:42px;margin-bottom:10px">🤖</div>'
+      +'<div class="h3 mb4" style="color:var(--text)">AI Tutor ACD100</div>'
+      +'<p class="f12 mb4" style="color:var(--muted)">'+(AI_KEY?'✅ AI Live (Anthropic API)':'📚 Knowledge Base locale · <span style="color:var(--accent);cursor:pointer" onclick="setAIKey()">+ Aggiungi API key</span>')+'</p>'
+      +'<p class="f13 mb16">Chiedimi qualsiasi cosa sulla certificazione!</p>'
+      +'<div style="text-align:left">'
+      +qs.map(function(q){
+        return '<button class="btn bs" style="margin-bottom:7px;justify-content:flex-start;font-family:var(--sans);font-size:12px;text-align:left;padding:10px 14px" data-q="'+q+'">💬 '+q+'</button>';
+      }).join('')+'</div></div>';
+    el.querySelectorAll('[data-q]').forEach(function(b){
+      b.onclick=function(){document.getElementById('ai-inp').value=b.getAttribute('data-q');sAI();};
+    });
+    return;
+  }
+  el.innerHTML=aiMs.map(function(m){
+    const isUser=m.role==='user';
+    const txt=m.content.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    return '<div style="display:flex;gap:8px;align-items:flex-start;'+(isUser?'flex-direction:row-reverse':'')+'">'
+      +'<div style="font-size:18px;flex-shrink:0">'+(isUser?'👤':'🤖')+'</div>'
+      +'<div class="ai-b '+(isUser?'ai-u':'')+'">'+txt+'</div></div>';
+  }).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+async function sAI(){
+  const inp=document.getElementById('ai-inp');
+  if(!inp)return;
+  const msg=inp.value.trim();
+  if(!msg)return;
+  inp.value='';
+  aiMs.push({role:'user',content:msg});renderAIC();
+  const el=document.getElementById('aic');
+  if(!el)return;
+  const tid='t'+Date.now();
+  const td=document.createElement('div');
+  td.id=tid;td.style.cssText='display:flex;gap:8px;align-items:flex-start';
+  td.innerHTML='<div style="font-size:18px">🤖</div><div class="ai-b"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span></div>';
+  el.appendChild(td);el.scrollTop=el.scrollHeight;
+
+  if(!AI_KEY){
+    // Modalità Knowledge Base locale — istantanea, offline
+    setTimeout(function(){
+      document.getElementById(tid)&&document.getElementById(tid).remove();
+      aiMs.push({role:'assistant',content:localAIReply(msg)});
+      renderAIC();
+    },600);
+    return;
+  }
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':AI_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',max_tokens:600,
+        system:'Sei un esperto tutor per la certificazione Appian ACD100. Rispondi SEMPRE in italiano, conciso (max 200 parole). Usa esempi pratici: pv!, ri!, local!, a!formLayout(), a!gridField() ecc. Focalizzati sul syllabus ACD100. Usa bullet point. Metti in grassetto (**testo**) i termini tecnici chiave.',
+        messages:aiMs.slice(-10)
+      })
+    });
+    const data=await res.json();
+    document.getElementById(tid)&&document.getElementById(tid).remove();
+    if(data.error){
+      aiMs.push({role:'assistant',content:'⚠️ Errore API: '+data.error.message+'\n\nPassa alla Knowledge Base locale → tocca "✓ AI LIVE" per rimuovere la chiave.'});
+    } else {
+      const reply=(data.content&&data.content.find(function(b){return b.type==='text';})||{text:'Errore risposta.'});
+      aiMs.push({role:'assistant',content:reply.text});
+    }
+  }catch(e){
+    document.getElementById(tid)&&document.getElementById(tid).remove();
+    const fallback=localAIReply(msg);
+    aiMs.push({role:'assistant',content:'⚠️ API non raggiungibile. Risposta dalla KB locale:\n\n'+fallback});
+  }
+  renderAIC();
+}
+
+// EXAM
+let EX={ph:'intro',qs:[],ans:{},cur:0,left:3600,tmr:null};
+function rExam(){renderEX();}
+function stEX(){
+  EX.qs=shuf(EXAM).slice(0,60);EX.ans={};EX.cur=0;EX.left=3600;EX.ph='exam';
+  S.ea++;saveS();chkACH();
+  clearInterval(EX.tmr);
+  EX.tmr=setInterval(function(){
+    EX.left--;
+    const el=document.getElementById('ex-t');
+    if(el){el.textContent=fmt(EX.left);el.className='timer'+(EX.left<300?' danger':'');}
+    if(EX.left<=0){clearInterval(EX.tmr);subEX();}
+  },1000);
+  renderEX();
+}
+function subEX(){
+  clearInterval(EX.tmr);EX.ph='result';
+  const c=EX.qs.filter(function(q,i){return EX.ans[i]===q.ans;}).length;
+  const p=Math.round(c/EX.qs.length*100);
+  if(p>=62){S.ep=true;toast('🏆','Esame superato! '+p+'%','var(--green)');}
+  saveS();chkACH();renderEX();
+}
+function renderEX(){
+  const sc=document.getElementById('s-exam');
+  if(EX.ph==='intro'){
+    sc.innerHTML='<div class="fade"><div class="tc mb20">'
+      +'<div style="font-size:50px;margin-bottom:8px">🎯</div>'
+      +'<div class="h1 mb4">Simulazione ACD100</div>'
+      +'<p class="cm f13">Appian Certified Associate Developer</p></div>'
+      +'<div class="sg mb16">'
+      +[['60','DOMANDE'],['60 min','DURATA'],['62%','PASS SCORE'],['Random','ORDINE']].map(function(v){
+        return '<div class="sb"><div class="sn">'+v[0]+'</div><div class="sl">'+v[1]+'</div></div>';
+      }).join('')+'</div>'
+      +'<div class="alb mb16">📋 Il vero esame ACD100: 60 domande, 60 min, soglia 62%. Questa simulazione replica il formato ufficiale.</div>'
+      +'<button class="btn bp mb8" onclick="stEX()">🚀 INIZIA SIMULAZIONE</button>'
+      +'<div class="card cb mt12"><div class="stit mb8" style="color:var(--blue)">SYLLABUS ACD100</div>'
+      +CH.map(function(c){
+        return '<div class="row-bet mb6"><span class="f13">'+c.emoji+' '+c.title+'</span><span class="tag tb">'+c.cQuiz.length+' dom.</span></div>';
+      }).join('')+'</div>'
+      +(S.ea>0?'<div class="alo mt12">📊 Tentativi: '+S.ea+' · '+(S.ep?'✅ Superato!':'❌ Non ancora')+'</div>':'')
+      +'</div>';
+  } else if(EX.ph==='exam'){
+    const q=EX.qs[EX.cur];
+    const K=['A','B','C','D'];
+    let opts='';
+    q.opts.forEach(function(o,i){
+      opts+='<button class="qopt '+(EX.ans[EX.cur]===i?'sel':'')+'" onclick="exP('+i+')">'
+        +'<span class="qkey">'+K[i]+'</span>'+o+'</button>';
+    });
+    sc.innerHTML='<div class="fade">'
+      +'<div class="row-bet mb12"><span class="tag to">ESAME LIVE</span>'
+      +'<span id="ex-t" class="timer '+(EX.left<300?'danger':'')+'">'+fmt(EX.left)+'</span></div>'
+      +'<div class="prog mb16"><div class="prog-f" style="width:'+(EX.cur/EX.qs.length*100)+'%"></div></div>'
+      +'<div class="row-bet mb12"><span class="f12 cm">Dom. '+(EX.cur+1)+'/'+EX.qs.length+'</span>'
+      +'<span class="f12 cm">Risposte: '+Object.keys(EX.ans).length+'/'+EX.qs.length+'</span></div>'
+      +'<p class="qtext">'+q.q+'</p>'+opts
+      +'<div class="row" style="margin-top:16px;gap:8px">'
+      +(EX.cur>0?'<button class="btn bs" onclick="exN(-1)">← Prec</button>':'')
+      +(EX.cur<EX.qs.length-1
+        ?'<button class="btn bp" onclick="exN(1)">Succ →</button>'
+        :'<button class="btn bg" onclick="subEX()">✓ CONSEGNA</button>')
+      +'</div></div>';
+  } else {
+    const c=EX.qs.filter(function(q,i){return EX.ans[i]===q.ans;}).length;
+    const p=Math.round(c/EX.qs.length*100);
+    const pass=p>=62;
+    const wrong=EX.qs.map(function(q,i){return {q:q,i:i,ok:EX.ans[i]===q.ans};}).filter(function(x){return !x.ok;});
+    const wrongHTML=wrong.length===0
+      ?'<div class="alg">🎉 Perfetto! Nessun errore!</div>'
+      :'<div class="card mb12" style="text-align:left"><div class="stit mb10" style="color:var(--red)">❌ RISPOSTE SBAGLIATE ('+wrong.length+')</div>'
+        +wrong.map(function(x){
+          const userAns=EX.ans[x.i]!==undefined?x.q.opts[EX.ans[x.i]]:'Non risposta';
+          return '<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:10px;margin-bottom:8px">'
+            +'<div class="f12" style="color:var(--text);margin-bottom:6px;line-height:1.4">'+x.q.q+'</div>'
+            +'<div class="f11" style="color:var(--green);margin-bottom:2px">✓ Corretta: <strong>'+x.q.opts[x.q.ans]+'</strong></div>'
+            +'<div class="f11" style="color:var(--red)">✗ Tu: '+userAns+'</div>'
+            +'</div>';
+        }).join('')+'</div>';
+    const unanswered=EX.qs.length-Object.keys(EX.ans).length;
+    sc.innerHTML='<div class="fade">'
+      +'<div class="tc mb16">'
+      +'<div style="font-size:52px;margin-bottom:8px">'+(pass?'🏆':'📚')+'</div>'
+      +'<div class="h1 mb4">'+(pass?'SUPERATO!':'Non ancora...')+'</div>'
+      +'<div class="big-score" style="color:'+(pass?'var(--green)':'var(--red)')+'">'+p+'%</div>'
+      +'<div class="'+(pass?'alg':'alr')+' mb8">'
+      +(pass?'✅ '+c+'/'+EX.qs.length+' corrette. Sei pronto per il vero ACD100!':'❌ '+c+'/'+EX.qs.length+' corrette · soglia 62%'+(unanswered>0?' · '+unanswered+' non risposte':'')+'. Ripassate le aree con errori.')+'</div>'
+      +'<div class="sg mb12">'
+      +'<div class="sb"><div class="sn" style="color:var(--green)">'+c+'</div><div class="sl">CORRETTE</div></div>'
+      +'<div class="sb"><div class="sn" style="color:var(--red)">'+wrong.length+'</div><div class="sl">SBAGLIATE</div></div>'
+      +'<div class="sb"><div class="sn" style="color:var(--accent)">'+p+'%</div><div class="sl">PUNTEGGIO</div></div>'
+      +'<div class="sb"><div class="sn" style="color:var(--muted)">'+S.ea+'</div><div class="sl">TENTATIVI</div></div>'
+      +'</div></div>'
+      +wrongHTML
+      +(wrong.length>0?'<div class="alo mb12" style="font-size:12px">💡 Ripassate gli argomenti sbagliati su LEARN o chiedi all\'AI Tutor!</div>':'')
+      +'<button class="btn bp mb8" onclick="EX.ph=\'intro\';renderEX()">🔄 NUOVO TENTATIVO</button>'
+      +'<button class="btn bb" onclick="go(\'ai\')">🤖 CHIEDI ALL\'AI TUTOR</button>'
+      +'</div>';
+  }
+}
+function exP(i){EX.ans[EX.cur]=i;renderEX();}
+function exN(d){EX.cur+=d;renderEX();}
+
+// FLASHCARD MODE
+let FC={cards:[],idx:0,flipped:false,chId:null};
+function oFlash(chId){
+  const ch=CH.find(function(c){return c.id===chId;});
+  FC.chId=chId;
+  // Raccogli tutte le domande quiz del capitolo (lezioni + capitolo)
+  const all=[];
+  ch.lessons.forEach(function(ls){ls.quiz.forEach(function(q){all.push(q);});});
+  ch.cQuiz.forEach(function(q){all.push(q);});
+  FC.cards=shuf(all);FC.idx=0;FC.flipped=false;
+  document.getElementById('s-learn').innerHTML='<div class="fade">'
+    +'<div class="row-bet mb16">'
+    +'<button class="btn bs bsm" onclick="oCh('+chId+')">← '+ch.emoji+' '+ch.title+'</button>'
+    +'<span class="tag tp">⚡ FLASHCARD</span>'
+    +'<span class="tag tm" id="fc-cnt">1/'+FC.cards.length+'</span></div>'
+    +'<div id="fc-wrap"></div></div>';
+  renderFlash();
+}
+function renderFlash(){
+  const w=document.getElementById('fc-wrap');
+  if(!w)return;
+  const card=FC.cards[FC.idx];
+  document.getElementById('fc-cnt').textContent=(FC.idx+1)+'/'+FC.cards.length;
+  if(!FC.flipped){
+    w.innerHTML='<div class="fade">'
+      +'<div class="card ca tap" onclick="FC.flipped=true;renderFlash()" style="min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(251,146,60,.03))">'
+      +'<div style="font-size:34px;margin-bottom:12px">❓</div>'
+      +'<div class="f14" style="font-weight:600;line-height:1.5;padding:0 8px">'+card.q+'</div>'
+      +'<div class="f11 cm mt12">Tocca per vedere la risposta</div></div>'
+      +'<div class="row" style="gap:8px;margin-top:12px">'
+      +(FC.idx>0?'<button class="btn bs" style="flex:1" onclick="FC.idx--;FC.flipped=false;renderFlash()">← Prec</button>':'')
+      +'<button class="btn bs" style="flex:1" onclick="FC.flipped=true;renderFlash()">👁️ Mostra</button>'
+      +(FC.idx<FC.cards.length-1?'<button class="btn bp" style="flex:1" onclick="FC.idx++;FC.flipped=false;renderFlash()">Prossima →</button>':'')
+      +'</div></div>';
+  } else {
+    const K=['A','B','C','D'];
+    const optsHTML=card.opts.map(function(o,i){
+      const isAns=i===card.ans;
+      return '<div style="background:'+(isAns?'rgba(34,197,94,.12)':'var(--bg3)')+';border:1px solid '+(isAns?'var(--green)':'var(--border)')+';border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;gap:8px;align-items:center">'
+        +'<span style="font-family:var(--mono);font-size:10px;color:'+(isAns?'var(--green)':'var(--muted)')+'">'+K[i]+'</span>'
+        +'<span class="f13" style="color:'+(isAns?'var(--green)':'var(--text2)')+'">'+o+'</span>'
+        +(isAns?'<span style="margin-left:auto;color:var(--green)">✓</span>':'')
+        +'</div>';
+    }).join('');
+    w.innerHTML='<div class="fade">'
+      +'<div class="card" style="border-color:var(--green);background:rgba(34,197,94,.04)">'
+      +'<div class="f14" style="font-weight:600;line-height:1.5;margin-bottom:12px;color:var(--text)">'+card.q+'</div>'
+      +optsHTML
+      +'<div class="alg mt8 f12">✓ Risposta corretta: <strong>'+card.opts[card.ans]+'</strong></div>'
+      +'</div>'
+      +'<div class="row" style="gap:8px;margin-top:12px">'
+      +(FC.idx>0?'<button class="btn bs" style="flex:1" onclick="FC.idx--;FC.flipped=false;renderFlash()">← Prec</button>':'')
+      +(FC.idx<FC.cards.length-1
+        ?'<button class="btn bp" style="flex:1" onclick="FC.idx++;FC.flipped=false;renderFlash()">Prossima →</button>'
+        :'<button class="btn bg" style="flex:1" onclick="toast(\'🎉\',\'Flashcard completate! Vai al Test Capitolo.\',\'var(--green)\');oCh(FC.chId)">✓ FINE! Vai al Test</button>')
+      +'</div></div>';
+  }
+}
+
+// UTILS
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+
+// PWA
+(function(){
+  const mf={name:'Appian Dev Cert',short_name:'AppianCert',start_url:'./',display:'standalone',
+    background_color:'#0b0f1a',theme_color:'#f97316',
+    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%230b0f1a'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='%23f97316'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E",
+             sizes:'192x192',type:'image/svg+xml'}]};
+  const l=document.createElement('link');l.rel='manifest';
+  l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
+  document.head.appendChild(l);
+  if('serviceWorker'in navigator){
+    const sw="self.addEventListener('install',function(){self.skipWaiting();});self.addEventListener('activate',function(){self.clients.claim();});self.addEventListener('fetch',function(e){e.respondWith(fetch(e.request).catch(function(){return caches.match(e.request);}));});";
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(function(){});
+  }
+})();
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();
+  setTimeout(function(){toast('📲','Installa su Android: ⋮ → Aggiungi a schermata Home','var(--blue)');},5000);
+});
+
+// INIT
+window.addEventListener('DOMContentLoaded', function(){
+  rHome();chkACH();
+  if(S.ls.length>0)setTimeout(function(){toast('👋','Bentornato! Streak: '+S.streak+' 🔥','var(--accent)');},600);
+});
+
+</script>
+</body>
+</html>
