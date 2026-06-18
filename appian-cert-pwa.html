@@ -31,9 +31,9 @@ html,body{height:100%;background:#0b0f1a;color:#e2e8f0;font-family:'DM Sans',san
 .pill-xp{background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.3)}
 .pill-s{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(17,24,39,.98);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 14px;z-index:100}
-.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:6px 14px;color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:.5px;transition:color .2s}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:6px 6px;color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:.5px;transition:color .2s}
 .nb.on{color:var(--accent)}
-.nb svg{width:22px;height:22px;stroke-width:1.8}
+.nb svg{width:20px;height:20px;stroke-width:1.8}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;transition:transform .15s,border-color .2s}
 .ca{border-color:var(--accent)!important}
 .cb{border-color:var(--blue)!important}
@@ -128,6 +128,12 @@ html,body{height:100%;background:#0b0f1a;color:#e2e8f0;font-family:'DM Sans',san
 .fade{animation:fu .3s ease}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .big-score{font-family:var(--syne);font-size:50px;font-weight:800;margin:14px 0}
+.ci{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;width:100%;resize:vertical;display:block}
+.ci:focus{border-color:rgba(249,115,22,.4)}
+.ans-sel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ans-btn{background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:11px 0;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;color:var(--text);transition:all .2s}
+.ans-btn.sel{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important;color:var(--green)!important}
+.ctag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;letter-spacing:.8px;padding:3px 8px;border-radius:6px;background:rgba(168,85,247,.15);color:var(--purple);font-weight:700}
 </style>
 </head>
 <body>
@@ -145,6 +151,7 @@ html,body{height:100%;background:#0b0f1a;color:#e2e8f0;font-family:'DM Sans',san
   <div class="screen" id="s-learn"></div>
   <div class="screen" id="s-ai"></div>
   <div class="screen" id="s-exam"></div>
+  <div class="screen" id="s-contrib"></div>
   <nav class="nav">
     <button class="nb on" data-t="home" onclick="go('home')">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>HOME
@@ -160,6 +167,9 @@ html,body{height:100%;background:#0b0f1a;color:#e2e8f0;font-family:'DM Sans',san
     </button>
     <button class="nb" data-t="exam" onclick="go('exam')">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>ESAME
+    </button>
+    <button class="nb" data-t="contrib" onclick="go('contrib')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>SHARE
     </button>
   </nav>
 </div>
@@ -217,6 +227,11 @@ function saveS(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
   if(S.lastActive===yest)S.streak++;else S.streak=S.lastActive?0:1;
   S.lastActive=today;S.gDone=(S.gd===today);saveS();
 })();
+// USER QUESTIONS (contributed from real exam)
+const UQ_KEY='apc_uq';
+let UQ=(function(){try{const d=localStorage.getItem(UQ_KEY);if(d)return JSON.parse(d);}catch(e){}return[];})();
+function saveUQ(){try{localStorage.setItem(UQ_KEY,JSON.stringify(UQ));}catch(e){}}
+
 function addXP(n){S.xp+=n;upP();saveS();}
 function upP(){
   document.getElementById('xp').textContent=S.xp+' XP';
@@ -271,7 +286,7 @@ function schedN(){
 if(S.notif)schedN();
 
 // NAV
-const TT={home:'Dev Cert',road:'Roadmap',learn:'Capitoli',ai:'AI Tutor',exam:'Simulazione'};
+const TT={home:'Dev Cert',road:'Roadmap',learn:'Capitoli',ai:'AI Tutor',exam:'Simulazione',contrib:'Domande Reali'};
 function go(tab){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');s.style.cssText='';});
   document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
@@ -279,7 +294,7 @@ function go(tab){
   const btn=document.querySelector('[data-t="'+tab+'"]');
   if(btn)btn.classList.add('on');
   document.getElementById('hdr-t').textContent=TT[tab]||tab;
-  const fn={home:rHome,road:rRoad,learn:rLearn,ai:rAI,exam:rExam}[tab];
+  const fn={home:rHome,road:rRoad,learn:rLearn,ai:rAI,exam:rExam,contrib:rContrib}[tab];
   if(fn)fn();
 }
 
@@ -842,7 +857,9 @@ async function sAI(){
 let EX={ph:'intro',qs:[],ans:{},cur:0,left:3600,tmr:null};
 function rExam(){renderEX();}
 function stEX(){
-  EX.qs=shuf(EXAM).slice(0,60);EX.ans={};EX.cur=0;EX.left=3600;EX.ph='exam';
+  const uqTagged=UQ.map(function(q){return Object.assign({},q,{_src:'community'});});
+  const allQ=EXAM.concat(uqTagged);
+  EX.qs=shuf(allQ).slice(0,60);EX.ans={};EX.cur=0;EX.left=3600;EX.ph='exam';
   S.ea++;saveS();chkACH();
   clearInterval(EX.tmr);
   EX.tmr=setInterval(function(){
@@ -872,7 +889,9 @@ function renderEX(){
         return '<div class="sb"><div class="sn">'+v[0]+'</div><div class="sl">'+v[1]+'</div></div>';
       }).join('')+'</div>'
       +'<div class="alb mb16">📋 Il vero esame ACD100: 60 domande, 60 min, soglia 62%. Questa simulazione replica il formato ufficiale.</div>'
+      +(UQ.length>0?'<div class="card mb12" style="border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.05)"><div class="row-bet"><div class="row" style="gap:8px"><span style="font-size:22px">👥</span><div><div class="f13" style="font-weight:600">'+UQ.length+' domande dalla community</div><div class="f12 cm">Incluse nella simulazione</div></div></div><button class="btn bs bsm" style="font-size:10px" onclick="go(\'contrib\')">+ AGGIUNGI</button></div></div>':'')
       +'<button class="btn bp mb8" onclick="stEX()">🚀 INIZIA SIMULAZIONE</button>'
+      +(UQ.length===0?'<div class="alo mb8" style="font-size:12px">👥 Hai sostenuto il vero esame? <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="go(\'contrib\')">Condividi le domande →</span></div>':'')
       +'<div class="card cb mt12"><div class="stit mb8" style="color:var(--blue)">SYLLABUS ACD100</div>'
       +CH.map(function(c){
         return '<div class="row-bet mb6"><span class="f13">'+c.emoji+' '+c.title+'</span><span class="tag tb">'+c.cQuiz.length+' dom.</span></div>';
@@ -882,18 +901,22 @@ function renderEX(){
   } else if(EX.ph==='exam'){
     const q=EX.qs[EX.cur];
     const K=['A','B','C','D'];
+    const isCom=q._src==='community';
     let opts='';
     q.opts.forEach(function(o,i){
+      const oTxt=isCom?escH(o):o;
       opts+='<button class="qopt '+(EX.ans[EX.cur]===i?'sel':'')+'" onclick="exP('+i+')">'
-        +'<span class="qkey">'+K[i]+'</span>'+o+'</button>';
+        +'<span class="qkey">'+K[i]+'</span>'+oTxt+'</button>';
     });
+    const qTxt=isCom?escH(q.q):q.q;
     sc.innerHTML='<div class="fade">'
       +'<div class="row-bet mb12"><span class="tag to">ESAME LIVE</span>'
       +'<span id="ex-t" class="timer '+(EX.left<300?'danger':'')+'">'+fmt(EX.left)+'</span></div>'
       +'<div class="prog mb16"><div class="prog-f" style="width:'+(EX.cur/EX.qs.length*100)+'%"></div></div>'
       +'<div class="row-bet mb12"><span class="f12 cm">Dom. '+(EX.cur+1)+'/'+EX.qs.length+'</span>'
       +'<span class="f12 cm">Risposte: '+Object.keys(EX.ans).length+'/'+EX.qs.length+'</span></div>'
-      +'<p class="qtext">'+q.q+'</p>'+opts
+      +(isCom?'<div class="row mb8" style="gap:6px"><span class="ctag">👥 COMMUNITY</span><span class="f11 cm">Dal vero esame ACD100</span></div>':'')
+      +'<p class="qtext">'+qTxt+'</p>'+opts
       +'<div class="row" style="margin-top:16px;gap:8px">'
       +(EX.cur>0?'<button class="btn bs" onclick="exN(-1)">← Prec</button>':'')
       +(EX.cur<EX.qs.length-1
@@ -905,14 +928,20 @@ function renderEX(){
     const p=Math.round(c/EX.qs.length*100);
     const pass=p>=62;
     const wrong=EX.qs.map(function(q,i){return {q:q,i:i,ok:EX.ans[i]===q.ans};}).filter(function(x){return !x.ok;});
+    const comInExam=EX.qs.filter(function(q){return q._src==='community';}).length;
     const wrongHTML=wrong.length===0
       ?'<div class="alg">🎉 Perfetto! Nessun errore!</div>'
       :'<div class="card mb12" style="text-align:left"><div class="stit mb10" style="color:var(--red)">❌ RISPOSTE SBAGLIATE ('+wrong.length+')</div>'
         +wrong.map(function(x){
-          const userAns=EX.ans[x.i]!==undefined?x.q.opts[EX.ans[x.i]]:'Non risposta';
+          const isCom=x.q._src==='community';
+          const qText=isCom?escH(x.q.q):x.q.q;
+          const corText=isCom?escH(x.q.opts[x.q.ans]):x.q.opts[x.q.ans];
+          const rawUserAns=EX.ans[x.i]!==undefined?x.q.opts[EX.ans[x.i]]:'Non risposta';
+          const userAns=isCom?escH(rawUserAns):rawUserAns;
           return '<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:10px;margin-bottom:8px">'
-            +'<div class="f12" style="color:var(--text);margin-bottom:6px;line-height:1.4">'+x.q.q+'</div>'
-            +'<div class="f11" style="color:var(--green);margin-bottom:2px">✓ Corretta: <strong>'+x.q.opts[x.q.ans]+'</strong></div>'
+            +(isCom?'<span class="ctag" style="margin-bottom:6px;display:inline-flex">👥 COMMUNITY</span><br>':'')
+            +'<div class="f12" style="color:var(--text);margin-bottom:6px;line-height:1.4">'+qText+'</div>'
+            +'<div class="f11" style="color:var(--green);margin-bottom:2px">✓ Corretta: <strong>'+corText+'</strong></div>'
             +'<div class="f11" style="color:var(--red)">✗ Tu: '+userAns+'</div>'
             +'</div>';
         }).join('')+'</div>';
@@ -932,6 +961,8 @@ function renderEX(){
       +'</div></div>'
       +wrongHTML
       +(wrong.length>0?'<div class="alo mb12" style="font-size:12px">💡 Ripassate gli argomenti sbagliati su LEARN o chiedi all\'AI Tutor!</div>':'')
+      +(comInExam>0?'<div class="card mb12" style="border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.05)"><div class="row" style="gap:8px"><span style="font-size:18px">👥</span><div><div class="f13" style="font-weight:600;margin-bottom:2px">'+comInExam+' domande dalla community</div><div class="f12 cm">Aggiungi anche tu le domande che ricordi dal vero esame!</div></div></div>'
+        +'<button class="btn bs bsm" style="margin-top:10px;font-size:10px" onclick="go(\'contrib\')">✏️ SHARE</button></div>':'')
       +'<button class="btn bp mb8" onclick="EX.ph=\'intro\';renderEX()">🔄 NUOVO TENTATIVO</button>'
       +'<button class="btn bb" onclick="go(\'ai\')">🤖 CHIEDI ALL\'AI TUTOR</button>'
       +'</div>';
@@ -997,6 +1028,114 @@ function renderFlash(){
         :'<button class="btn bg" style="flex:1" onclick="toast(\'🎉\',\'Flashcard completate! Vai al Test Capitolo.\',\'var(--green)\');oCh(FC.chId)">✓ FINE! Vai al Test</button>')
       +'</div></div>';
   }
+}
+
+// CONTRIBUTE — domande dal vero esame
+let CQ={q:'',opts:['','','',''],ans:-1};
+let CQView='form';
+
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function rContrib(){
+  const sc=document.getElementById('s-contrib');
+  const totalBank=EXAM.length+UQ.length;
+  let h='<div class="fade">'
+    +'<div class="h1 mb4">Domande Reali</div>'
+    +'<p class="cm f13 mb16">Hai sostenuto il vero esame ACD100? Condividi le domande che ricordi: verranno aggiunte alle simulazioni per aiutare chi si prepara.</p>'
+    +'<div class="sg mb16">'
+    +'<div class="sb"><div class="sn" style="color:var(--purple)">'+UQ.length+'</div><div class="sl">DONATE</div></div>'
+    +'<div class="sb"><div class="sn" style="color:var(--blue)">'+totalBank+'</div><div class="sl">IN BANCA</div></div>'
+    +'</div>'
+    +'<div class="row" style="gap:8px;margin-bottom:16px">'
+    +'<button class="btn '+(CQView==='form'?'bp':'bs')+'" style="flex:1;font-size:11px" onclick="CQView=\'form\';rContrib()">✏️ AGGIUNGI</button>'
+    +'<button class="btn '+(CQView==='list'?'bp':'bs')+'" style="flex:1;font-size:11px" onclick="CQView=\'list\';rContrib()">📋 ELENCO ('+UQ.length+')</button>'
+    +'</div>';
+  h+=CQView==='form'?_contribForm():_contribList();
+  h+='</div>';
+  sc.innerHTML=h;
+}
+
+function _contribForm(){
+  const K=['A','B','C','D'];
+  let h='<div class="card ca">'
+    +'<div class="h3 mb12">📝 Aggiungi una domanda</div>'
+    +'<div class="stit mb6">TESTO DELLA DOMANDA</div>'
+    +'<textarea class="ci" id="cq-q" rows="3" placeholder="Inserisci il testo della domanda esattamente come ricordi...">'+escH(CQ.q)+'</textarea>';
+  K.forEach(function(k,i){
+    h+='<div class="stit mt12 mb6">OPZIONE '+k+(CQ.ans===i?' <span style="color:var(--green)">✓ CORRETTA</span>':'')+'</div>'
+      +'<input class="ci" id="cq-o'+i+'" type="text" placeholder="Testo opzione '+k+'" value="'+escH(CQ.opts[i])+'">';
+  });
+  h+='<div class="stit mt16 mb8">RISPOSTA CORRETTA</div>'
+    +'<div class="ans-sel mb16">';
+  K.forEach(function(k,i){
+    h+='<button class="ans-btn'+(CQ.ans===i?' sel':'')+'" onclick="cqAns('+i+')">'+k+'</button>';
+  });
+  h+='</div>'
+    +'<button class="btn bp" onclick="submitCQ()">➕ AGGIUNGI DOMANDA</button>'
+    +'</div>'
+    +'<div class="alb mt12 f12">💡 Le domande inserite vengono mescolate al banco ufficiale ('+EXAM.length+' dom.) durante le simulazioni. Grazie per il contributo! 🙏</div>';
+  return h;
+}
+
+function _contribList(){
+  if(UQ.length===0){
+    return '<div class="card tc">'
+      +'<div style="font-size:42px;margin-bottom:10px">📭</div>'
+      +'<div class="h3 mb8">Nessuna domanda ancora</div>'
+      +'<p class="cm f13 mb16">Sii il primo a condividere le domande del vero esame ACD100!</p>'
+      +'<button class="btn bp" onclick="CQView=\'form\';rContrib()">✏️ AGGIUNGI ORA</button></div>';
+  }
+  const K=['A','B','C','D'];
+  let h='';
+  UQ.forEach(function(q,i){
+    h+='<div class="card cb">'
+      +'<div class="row-bet mb10">'
+      +'<div class="row" style="gap:6px"><span class="ctag">👥 COMMUNITY</span>'
+      +(q.date?'<span class="f11 cm">'+escH(q.date)+'</span>':'')+'</div>'
+      +'<button onclick="delCQ('+i+')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:4px 9px;color:var(--red);font-size:11px;cursor:pointer">🗑️</button>'
+      +'</div>'
+      +'<div class="f13" style="font-weight:600;line-height:1.4;margin-bottom:10px">'+escH(q.q)+'</div>';
+    q.opts.forEach(function(o,j){
+      const isAns=j===q.ans;
+      h+='<div style="font-size:12px;padding:7px 10px;border-radius:8px;margin-bottom:4px;'
+        +(isAns?'background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);':'background:var(--bg3);border:1px solid var(--border);color:var(--text2);')
+        +'"><span style="font-family:var(--mono);font-size:10px;margin-right:6px">'+K[j]+'</span>'
+        +escH(o)+(isAns?' <strong>✓</strong>':'')+'</div>';
+    });
+    h+='</div>';
+  });
+  return h;
+}
+
+function cqAns(i){
+  const qEl=document.getElementById('cq-q');
+  [0,1,2,3].forEach(function(j){const el=document.getElementById('cq-o'+j);if(el)CQ.opts[j]=el.value;});
+  if(qEl)CQ.q=qEl.value;
+  CQ.ans=i;
+  rContrib();
+}
+
+function submitCQ(){
+  const qEl=document.getElementById('cq-q');
+  const opts=[0,1,2,3].map(function(i){const el=document.getElementById('cq-o'+i);return el?el.value.trim():'';});
+  const q=qEl?qEl.value.trim():'';
+  if(!q){toast('❌','Inserisci il testo della domanda','var(--red)');return;}
+  if(opts.some(function(o){return !o;})){toast('❌','Compila tutte e 4 le opzioni','var(--red)');return;}
+  if(CQ.ans<0){toast('❌','Seleziona la risposta corretta (A/B/C/D)','var(--red)');return;}
+  UQ.push({q:q,opts:opts,ans:CQ.ans,date:new Date().toLocaleDateString('it-IT')});
+  saveUQ();
+  CQ={q:'',opts:['','','',''],ans:-1};
+  toast('✅','Domanda aggiunta alla banca! Grazie 🙏','var(--green)');
+  CQView='list';
+  rContrib();
+}
+
+function delCQ(i){
+  if(!confirm('Eliminare questa domanda?'))return;
+  UQ.splice(i,1);
+  saveUQ();
+  toast('🗑️','Domanda eliminata','var(--muted)');
+  rContrib();
 }
 
 // UTILS
