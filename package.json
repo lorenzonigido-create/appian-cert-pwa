@@ -1,0 +1,12 @@
+{
+  "name": "appian-cert-pwa",
+  "version": "1.0.0",
+  "description": "PWA mobile-first per la certificazione Appian ACD100",
+  "scripts": {
+    "start": "npx --yes serve . -p 3456 --single",
+    "dev": "npx --yes live-server --port=3456 --open=appian-cert-pwa.html",
+    "test": "PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers node verify.js"
+  },
+  "keywords": ["appian", "acd100", "pwa", "certificazione"],
+  "license": "MIT"
+}
